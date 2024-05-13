@@ -7,11 +7,14 @@
         <Nullable>enable</Nullable>
     	<EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <UserSecretsId>da66fa0f-0ccf-44a0-b68b-cd123d4208c1</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="FreeTypeSharp" Version="3.0.0" />
       <PackageReference Include="MessagePack" Version="2.6.100-alpha" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0-preview.3.24172.9" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.0-preview.3.24172.9" />
       <PackageReference Include="NAudio" Version="2.2.1" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="NLua" Version="1.7.2" />

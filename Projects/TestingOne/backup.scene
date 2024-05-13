@@ -1,0 +1,428 @@
+{
+  "$type": "System.Collections.Generic.List`1[[Diffraction.Rendering.Objects.Object, Diffraction]], System.Private.CoreLib",
+  "$values": [
+    {
+      "$id": "1",
+      "$type": "Diffraction.Rendering.Objects.Object, Diffraction",
+      "Id": "34e6370f-e4fd-4cef-b0b5-c88ae2543e82",
+      "Components": {
+        "$type": "System.Collections.Generic.List`1[[Diffraction.Rendering.EventObject, Diffraction]], System.Private.CoreLib",
+        "$values": [
+          {
+            "$id": "2",
+            "$type": "Diffraction.Rendering.Meshes.Mesh, Diffraction",
+            "_material": {
+              "$id": "3",
+              "$type": "Diffraction.Rendering.Shaders.Materials.Material, Diffraction",
+              "sShader": {
+                "$id": "4",
+                "$type": "Diffraction.Serializables.sShader, Diffraction",
+                "ShaderName": "MonkeyShader"
+              },
+              "sTexture": {
+                "$id": "5",
+                "$type": "Diffraction.Serializables.sTexture, Diffraction",
+                "TextureName": "Textures/grass.png"
+              }
+            },
+            "_skyboxMaterial": {
+              "$id": "6",
+              "$type": "Diffraction.Rendering.Shaders.Materials.Material, Diffraction",
+              "sShader": {
+                "$id": "7",
+                "$type": "Diffraction.Serializables.sShader, Diffraction",
+                "ShaderName": "MeshSkybox"
+              },
+              "sTexture": {
+                "$id": "8",
+                "$type": "Diffraction.Serializables.sTexture, Diffraction",
+                "TextureName": "Textures/grass.png"
+              }
+            },
+            "_data": {
+              "$id": "9",
+              "$type": "Diffraction.Serializables.sMeshData, Diffraction",
+              "MeshName": "Models/cube.obj"
+            },
+            "_transform": {
+              "$id": "10",
+              "$type": "Diffraction.Rendering.Meshes.Transform, Diffraction",
+              "Position": {
+                "$id": "11",
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": 0.0,
+                "Y": 0.0,
+                "Z": 0.0
+              },
+              "Rotation": {
+                "$id": "12",
+                "$type": "System.Numerics.Vector4, System.Private.CoreLib",
+                "X": -0.0,
+                "Y": 0.0,
+                "Z": 0.0,
+                "W": 1.0
+              },
+              "Scale": {
+                "$id": "13",
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": 1.0,
+                "Y": 1.0,
+                "Z": 1.0
+              },
+              "Forward": {
+                "$id": "14",
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": 0.0,
+                "Y": 0.0,
+                "Z": 1.0
+              }
+            },
+            "_parentTransform": {
+              "$id": "15",
+              "$type": "Diffraction.Rendering.Meshes.Transform, Diffraction",
+              "Position": {
+                "$id": "16",
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": 0.0,
+                "Y": -1.0,
+                "Z": 0.0
+              },
+              "Rotation": {
+                "$id": "17",
+                "$type": "System.Numerics.Vector4, System.Private.CoreLib",
+                "X": -0.0,
+                "Y": 0.0,
+                "Z": 0.0,
+                "W": 1.0
+              },
+              "Scale": {
+                "$id": "18",
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": 30.0,
+                "Y": 1.0,
+                "Z": 30.0
+              },
+              "Forward": {
+                "$id": "19",
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": 0.0,
+                "Y": 0.0,
+                "Z": 1.0
+              }
+            },
+            "IsSkybox": false
+          },
+          {
+            "$id": "20",
+            "$type": "Diffraction.Physics.StaticPhysicsObject, Diffraction",
+            "_parent": {
+              "$id": "21",
+              "$type": "Diffraction.Serializables.sObject, Diffraction",
+              "Id": "34e6370f-e4fd-4cef-b0b5-c88ae2543e82"
+            },
+            "_body": {
+              "$id": "22",
+              "$type": "Diffraction.Serializables.sRigidstatic, Diffraction",
+              "Shape": {
+                "$id": "23",
+                "$type": "Diffraction.Serializables.sCollisionShape, Diffraction",
+                "ShapeType": 0,
+                "Sizes": {
+                  "$type": "System.Collections.Generic.List`1[[System.Single, System.Private.CoreLib]], System.Private.CoreLib",
+                  "$values": [
+                    30.0,
+                    1.0,
+                    30.0
+                  ]
+                },
+                "Position": {
+                  "$id": "24",
+                  "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                  "X": 0.0,
+                  "Y": -1.0,
+                  "Z": 0.0
+                },
+                "Rotation": {
+                  "$id": "25",
+                  "$type": "System.Numerics.Quaternion, System.Private.CoreLib",
+                  "X": 0.0,
+                  "Y": 0.0,
+                  "Z": 0.0,
+                  "W": 1.0,
+                  "IsIdentity": true
+                },
+                "Density": 0.0
+              }
+            }
+          }
+        ]
+      },
+      "Children": {
+        "$type": "System.Collections.Generic.List`1[[Diffraction.Rendering.Objects.Object, Diffraction]], System.Private.CoreLib",
+        "$values": []
+      },
+      "Name": "Floor",
+      "IsVisible": true,
+      "Transform": {
+        "$ref": "15"
+      },
+      "Selected": false,
+      "IsSkyBox": false
+    },
+    {
+      "$id": "26",
+      "$type": "Diffraction.Rendering.Objects.Object, Diffraction",
+      "Id": "9585425c-7862-4bad-813b-48de65b05244",
+      "Components": {
+        "$type": "System.Collections.Generic.List`1[[Diffraction.Rendering.EventObject, Diffraction]], System.Private.CoreLib",
+        "$values": [
+          {
+            "$id": "27",
+            "$type": "Diffraction.Rendering.Meshes.Mesh, Diffraction",
+            "_material": {
+              "$id": "28",
+              "$type": "Diffraction.Rendering.Shaders.Materials.Material, Diffraction",
+              "sShader": {
+                "$id": "29",
+                "$type": "Diffraction.Serializables.sShader, Diffraction",
+                "ShaderName": "MonkeyShader"
+              },
+              "sTexture": {
+                "$id": "30",
+                "$type": "Diffraction.Serializables.sTexture, Diffraction",
+                "TextureName": "Textures/monkey.png"
+              }
+            },
+            "_skyboxMaterial": {
+              "$id": "31",
+              "$type": "Diffraction.Rendering.Shaders.Materials.Material, Diffraction",
+              "sShader": {
+                "$id": "32",
+                "$type": "Diffraction.Serializables.sShader, Diffraction",
+                "ShaderName": "MeshSkybox"
+              },
+              "sTexture": {
+                "$id": "33",
+                "$type": "Diffraction.Serializables.sTexture, Diffraction",
+                "TextureName": "Textures/monkey.png"
+              }
+            },
+            "_data": {
+              "$id": "34",
+              "$type": "Diffraction.Serializables.sMeshData, Diffraction",
+              "MeshName": "Models/cube.obj"
+            },
+            "_transform": {
+              "$id": "35",
+              "$type": "Diffraction.Rendering.Meshes.Transform, Diffraction",
+              "Position": {
+                "$id": "36",
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": 0.0,
+                "Y": 0.0,
+                "Z": 0.0
+              },
+              "Rotation": {
+                "$id": "37",
+                "$type": "System.Numerics.Vector4, System.Private.CoreLib",
+                "X": -0.0,
+                "Y": 0.0,
+                "Z": 0.0,
+                "W": 1.0
+              },
+              "Scale": {
+                "$id": "38",
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": 1.0,
+                "Y": 1.0,
+                "Z": 1.0
+              },
+              "Forward": {
+                "$id": "39",
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": 0.0,
+                "Y": 0.0,
+                "Z": 1.0
+              }
+            },
+            "_parentTransform": {
+              "$id": "40",
+              "$type": "Diffraction.Rendering.Meshes.Transform, Diffraction",
+              "Position": {
+                "$id": "41",
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": 0.0,
+                "Y": 5.0,
+                "Z": 0.0
+              },
+              "Rotation": {
+                "$id": "42",
+                "$type": "System.Numerics.Vector4, System.Private.CoreLib",
+                "X": -0.0,
+                "Y": 0.0,
+                "Z": 0.0,
+                "W": 1.0
+              },
+              "Scale": {
+                "$id": "43",
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": 1.0,
+                "Y": 1.0,
+                "Z": 1.0
+              },
+              "Forward": {
+                "$id": "44",
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": 0.0,
+                "Y": 0.0,
+                "Z": 1.0
+              }
+            },
+            "IsSkybox": false
+          },
+          {
+            "$id": "45",
+            "$type": "Diffraction.Scripting.Script, Diffraction",
+            "Code": "import ('System.Numerics')\nimport ('Diffraction', 'Diffraction.Input') -- Importing the Input module, this is in C#, not Lua\nimport ('Diffraction', 'Diffraction.Scripting.Globals') -- Global variables, includes classes like Time, Network, etc.\nimport ('Diffraction', 'Diffraction.Rendering.Meshes') -- This includes the Transform class, used for moving objects\nimport ('Silk.NET.Input.Common', 'Silk.NET.Input')\n\n--[[\n\nGlobal Variables: (outside this script)\n    - Time (class)\n        - .DeltaTime (float)\n        - .Time (float)\n\n    - Transform (class)\n        - .Position (Vector3)\n        - .Rotation (Quaternion)\n        - .Scale (Vector3)\n\n    - Input (class)\n        - .GetKey (function)\n        - .GetKeyDown (function)\n        - .GetKeyUp (function)\n        - .GetMouseButton (function)\n        - .GetMouseButtonDown (function)\n        - .GetMouseButtonUp (function)\n        - .GetMousePosition (function)\n        - .GetMouseScrollDelta (function)\n        - .GetMouseDelta (function)\n    ]]--\n\nfunction Start()\n    print(\"This is a test movement script.\")\nend\n\nfunction Update()\n    forward = Transform.Forward\n\n    local speed = 5\n\n    if Input.GetKey(Key.ShiftLeft) then\n        speed = 10\n    else\n        speed = 5\n    end\n\n    if Input.GetKey(Key.W) then\n        Transform.Position = Vector3.Add(Transform.Position, Vector3.Multiply(Transform.Forward, Time.DeltaTime * speed))\n    end\n\n    if Input.GetKey(Key.S) then\n        Transform.Position = Vector3.Subtract(Transform.Position, Vector3.Multiply(Transform.Forward, Time.DeltaTime * speed))\n    end\n\n    if Input.GetKey(Key.A) then\n        Transform.Rotation = Quaternion.Multiply(Transform.Rotation, Quaternion.CreateFromAxisAngle(Vector3.UnitY, Time.DeltaTime))\n    end\n\n    if Input.GetKey(Key.D) then\n        Transform.Rotation = Quaternion.Multiply(Transform.Rotation, Quaternion.CreateFromAxisAngle(Vector3.UnitY, -Time.DeltaTime))\n    end\n\nend",
+            "Path": "Scripts/testing.lua",
+            "_parent": {
+              "$id": "46",
+              "$type": "Diffraction.Serializables.sObject, Diffraction",
+              "Id": "9585425c-7862-4bad-813b-48de65b05244"
+            },
+            "Parameters": {
+              "$id": "47",
+              "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib"
+            }
+          },
+          {
+            "$id": "48",
+            "$type": "Diffraction.Physics.PhysicsObject, Diffraction",
+            "_parent": {
+              "$id": "49",
+              "$type": "Diffraction.Serializables.sObject, Diffraction",
+              "Id": "9585425c-7862-4bad-813b-48de65b05244"
+            },
+            "_rigidbody": {
+              "$id": "50",
+              "$type": "Diffraction.Serializables.sRigidbody, Diffraction",
+              "Shape": {
+                "$id": "51",
+                "$type": "Diffraction.Serializables.sCollisionShape, Diffraction",
+                "ShapeType": 0,
+                "Sizes": {
+                  "$type": "System.Collections.Generic.List`1[[System.Single, System.Private.CoreLib]], System.Private.CoreLib",
+                  "$values": [
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                "Position": {
+                  "$id": "52",
+                  "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                  "X": 0.0,
+                  "Y": 5.0,
+                  "Z": 0.0
+                },
+                "Rotation": {
+                  "$id": "53",
+                  "$type": "System.Numerics.Quaternion, System.Private.CoreLib",
+                  "X": 0.0,
+                  "Y": 0.0,
+                  "Z": 0.0,
+                  "W": 1.0,
+                  "IsIdentity": true
+                },
+                "Density": 10.0
+              }
+            },
+            "Velocity": {
+              "$id": "54",
+              "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+              "X": 0.0,
+              "Y": 0.0,
+              "Z": 0.0
+            },
+            "Rigidbody": {
+              "$ref": "50"
+            }
+          }
+        ]
+      },
+      "Children": {
+        "$type": "System.Collections.Generic.List`1[[Diffraction.Rendering.Objects.Object, Diffraction]], System.Private.CoreLib",
+        "$values": []
+      },
+      "Name": "TestCube",
+      "IsVisible": true,
+      "Transform": {
+        "$ref": "40"
+      },
+      "Selected": false,
+      "IsSkyBox": false
+    },
+    {
+      "$id": "55",
+      "$type": "Diffraction.Rendering.Specials.Skybox, Diffraction",
+      "CubemapName": {
+        "$type": "System.String[], System.Private.CoreLib",
+        "$values": [
+          "Textures/cubemap/sea/nx.png",
+          "Textures/cubemap/sea/px.png",
+          "Textures/cubemap/sea/py.png",
+          "Textures/cubemap/sea/ny.png",
+          "Textures/cubemap/sea/nz.png",
+          "Textures/cubemap/sea/pz.png"
+        ]
+      },
+      "ShaderName": "SkyboxShader",
+      "Id": "36ab354b-e49a-4601-a790-896d5f22d346",
+      "Components": {
+        "$type": "System.Collections.Generic.List`1[[Diffraction.Rendering.EventObject, Diffraction]], System.Private.CoreLib",
+        "$values": []
+      },
+      "Children": {
+        "$type": "System.Collections.Generic.List`1[[Diffraction.Rendering.Objects.Object, Diffraction]], System.Private.CoreLib",
+        "$values": []
+      },
+      "Name": "Skybox",
+      "IsVisible": true,
+      "Transform": {
+        "$id": "56",
+        "$type": "Diffraction.Rendering.Meshes.Transform, Diffraction",
+        "Position": {
+          "$id": "57",
+          "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "Rotation": {
+          "$id": "58",
+          "$type": "System.Numerics.Vector4, System.Private.CoreLib",
+          "X": -0.0,
+          "Y": 0.0,
+          "Z": 0.0,
+          "W": 1.0
+        },
+        "Scale": {
+          "$id": "59",
+          "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0
+        },
+        "Forward": {
+          "$id": "60",
+          "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 1.0
+        }
+      },
+      "Selected": false,
+      "IsSkyBox": false
+    }
+  ]
+}

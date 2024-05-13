@@ -1,4 +1,15 @@
 ﻿using System.Numerics;
+using Microsoft.Extensions.Configuration;
+
+using ImGuiNET;
+using MagicPhysX.Toolkit;
+
+using Silk.NET.Input;
+using Silk.NET.Maths;
+using Silk.NET.OpenGL;
+using Silk.NET.OpenGL.Extensions.ImGui;
+using Silk.NET.Windowing;
+
 using Diffraction.Audio;
 using Diffraction.Editor.GUI;
 using Diffraction.Input;
@@ -17,20 +28,18 @@ using Diffraction.Rendering.Specials;
 using Diffraction.Scripting;
 using Diffraction.Scripting.Globals;
 using Diffraction.Serializables;
-using ImGuiNET;
-using MagicPhysX.Toolkit;
-using Silk.NET.Input;
-using Silk.NET.Maths;
-using Silk.NET.OpenGL;
-using Silk.NET.OpenGL.Extensions.ImGui;
-using Silk.NET.Windowing;
+
 using Mesh = Diffraction.Rendering.Meshes.Mesh;
 using Object = Diffraction.Rendering.Objects.Object;
 using Simulation = Diffraction.Physics.Simulation;
 using Transform = Diffraction.Rendering.Meshes.Transform;
 using Window = Diffraction.Rendering.Windowing.Window;
 
-ObjectScene scene = new ObjectScene("/home/marten/DiffractionProjects/TestingOne");
+IConfigurationRoot config = new ConfigurationBuilder()
+    .AddUserSecrets<Program>()
+    .Build();
+
+ObjectScene scene = new ObjectScene(config["project_path"]);
 
 var shaders = new Tuple<string, string, string>[]
 {
