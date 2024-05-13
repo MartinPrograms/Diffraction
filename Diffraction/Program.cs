@@ -51,11 +51,15 @@ var shaders = new Tuple<string, string, string>[]
     new Tuple<string, string, string>("SkyboxShader", "Shaders/skybox.vert", "Shaders/skybox.frag"),
     new Tuple<string, string, string>("MeshSkybox", "Shaders/advanced_skybox.vert", "Shaders/monkey.frag"),
 };
+
+var apiVersion = new APIVersion(3, 3);
+
+
 WindowOptions options = WindowOptions.Default with
 {
     Size = new Vector2D<int>(1280, 720),
     Title = "Diffraction",
-    API = new GraphicsAPI(ContextAPI.OpenGL, new APIVersion(4, 5)),
+    API = new GraphicsAPI(ContextAPI.OpenGL, apiVersion),
     VSync = false,
     WindowBorder = WindowBorder.Resizable,
     WindowState = WindowState.Maximized,
