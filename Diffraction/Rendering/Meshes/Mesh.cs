@@ -40,8 +40,14 @@ public class Mesh : EventObject
         _material = material;
         _skyboxMaterial = skyboxMaterial;
         
-        _transform = new Transform(Vector3.Zero, Vector4.UnitW, Vector3.One);
+        _transform = new Transform(Vector3.Zero, Quaternion.Identity, Vector3.One);
     }
+    
+    public Mesh()
+    {
+        
+    }
+    
     public override void Render(Camera camera)
     {
         _material.Use();

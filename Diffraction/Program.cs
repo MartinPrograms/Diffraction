@@ -79,6 +79,7 @@ PhysicsUI physicsUI = new PhysicsUI();
 AudioUI audioUI = new AudioUI();
 MainMenuBar mainMenuBar = new MainMenuBar();
 Viewport viewport = null;
+ScriptUI scriptUI = new ScriptUI();
 
 Stats stats = new Stats();
 
@@ -138,10 +139,10 @@ window.Open += () =>
         obj.Transform.Scale = new Vector3(1, 1, 1);
         
         var script = Script.Load("Scripts/testing.lua", new sObject(obj.Id));
-
-        obj.Components.Add(script);
         
         obj.Components.Add(new PhysicsObject(new sObject(obj.Id), new sRigidbody(new sCollisionShape(CollisionShapeType.Box, obj.Transform.Scale.ToList(), obj.Transform.Position, obj.Transform.Rotation, 10))));
+        
+        obj.Components.Add(script);
         
         scene.AddObject(obj);
     }
@@ -230,6 +231,7 @@ window.Render += (time) =>
         physicsUI.Render(camera);
         audioUI.Render(camera);
         sceneUI.Render(camera);
+        scriptUI.Render(camera);
         
         viewport.Render(camera);
     }

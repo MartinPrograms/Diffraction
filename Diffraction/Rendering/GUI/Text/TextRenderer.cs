@@ -149,8 +149,8 @@ public class TextRenderer
         gl.Enable(EnableCap.Blend);
         gl.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
         
-        Matrix4x4 projection = Matrix4x4.CreateOrthographicOffCenter(0, Window.Instance.IWindow.Size.X, Window.Instance.IWindow.Size.Y, 0, -1, 1);
-        Window.Instance.GL.Viewport(0, 0, (uint)Window.Instance.IWindow.Size.X, (uint)Window.Instance.IWindow.Size.Y);
+        Matrix4x4 projection = Matrix4x4.CreateOrthographicOffCenter(0, Window.Instance.IWindow.FramebufferSize.X, Window.Instance.IWindow.FramebufferSize.Y, 0, -1, 1);
+        Window.Instance.GL.Viewport(0, 0, (uint)Window.Instance.IWindow.FramebufferSize.X, (uint)Window.Instance.IWindow.FramebufferSize.Y);
         _shader.SetMat4("projection", projection);
         
         float textWidth = 0;

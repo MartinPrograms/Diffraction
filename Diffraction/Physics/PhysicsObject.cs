@@ -54,7 +54,7 @@ public class PhysicsObject : EventObject, IPhysicsObject
     public override void Update(double time)
     {
         _parent.GetObject().Transform.Position = _rigidbody.Rb.position;
-        _parent.GetObject().Transform.Rotation = new Vector4(_rigidbody.Rb.rotation.X, _rigidbody.Rb.rotation.Y, _rigidbody.Rb.rotation.Z, _rigidbody.Rb.rotation.W);
+        _parent.GetObject().Transform.Rotation = new Quaternion(_rigidbody.Rb.rotation.X, _rigidbody.Rb.rotation.Y, _rigidbody.Rb.rotation.Z, _rigidbody.Rb.rotation.W);
         
         Console.WriteLine(_rigidbody.Rb.velocity);
     }

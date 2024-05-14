@@ -7,7 +7,7 @@ namespace Diffraction.Rendering.Meshes;
 public class Transform
 {
     public Vector3 Position;
-    public Vector4 Rotation;
+    public Quaternion Rotation;
     public Vector3 Scale;
 
     public Vector3 Forward
@@ -22,11 +22,11 @@ public class Transform
         {
             var quat = Quaternion.CreateFromRotationMatrix(Matrix4x4.CreateLookAt(Position, Position + value,
                 Vector3.UnitY));
-            Rotation = new Vector4(quat.X, quat.Y, quat.Z, quat.W);
+            Rotation = new Quaternion(quat.X, quat.Y, quat.Z, quat.W);
         }
     }
     
-    public Transform(Vector3 position, Vector4 rotation, Vector3 scale)
+    public Transform(Vector3 position, Quaternion rotation, Vector3 scale)
     {
         Position = position;
         Rotation = rotation;

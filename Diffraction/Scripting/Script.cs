@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Numerics;
 using System.Reflection;
 using Diffraction.Rendering;
@@ -14,9 +15,17 @@ public class Script : EventObject
 {
     public string Code;
     public string Path;
+    public string Name => System.IO.Path.GetFileName(Path);
     
     [JsonProperty]
     private sObject _parent;
+
+    [JsonIgnore]
+    public sObject Parent
+    {
+        set{ _parent = value; }
+        get{ return _parent; }
+    }
     
     private Lua _lua;
 
@@ -25,7 +34,7 @@ public class Script : EventObject
     
     public static Script Load(string path, sObject parent)
     {
-        return new Script(System.IO.File.ReadAllText(path)){Path = path, _parent = parent};
+        return ScriptUtils.Load(path, parent);
     }
     
     public Script(string code)
@@ -124,4 +133,20 @@ public class Script : EventObject
     }
     
     public event Action AfterUpdate;
+
+    public void Reload()
+    {
+        _lua.Dispose();
+        _lua = new Lua();
+        
+        _lua.Run(Code);
+        
+        _start = (LuaFunction)_lua.Get("Start");
+        _update = (LuaFunction)_lua.Get("Update");
+    }
+
+    public Dictionary<string, object> GetVariables()
+    {
+        return Parameters;
+    }
 }

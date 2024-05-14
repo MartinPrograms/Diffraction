@@ -1,3 +1,4 @@
+using System.Numerics;
 using Diffraction.Rendering;
 using Diffraction.Rendering.Meshes;
 using ImGuiNET;
@@ -23,11 +24,19 @@ public class SceneUI : EventObject
     {
         foreach (Object obj in instanceObjects)
         {
-            if (ImGui.TreeNode(obj.Name + "##" + obj.GetHashCode()))
+            bool selected = ObjectScene.Instance.SelectedObject == obj;
+
+            var node = ImGui.TreeNodeEx(obj.Name + "##" + obj.GetHashCode(),
+                (selected ? ImGuiTreeNodeFlags.Selected : ImGuiTreeNodeFlags.None) | ImGuiTreeNodeFlags.OpenOnArrow);
+
+            if (ImGui.IsItemClicked())
             {
                 ObjectScene.Instance.SelectedObject = obj;
+            }
+
+            if (node)
+            {
                 RecursiveRender(obj.Children);
-                
                 ImGui.TreePop();
             }
         }

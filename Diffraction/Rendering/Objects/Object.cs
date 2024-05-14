@@ -30,7 +30,7 @@ public class Object : EventObject
     public bool IsVisible = true;
     
     [ExposeToLua("Transform")]
-    public Transform Transform = new Transform(new Vector3(0, 5, 0), new Vector4(0,0,0,1), new Vector3(1, 1, 1));
+    public Transform Transform = new Transform(new Vector3(0, 5, 0), new Quaternion(0,0,0,1), new Vector3(1, 1, 1));
     public bool Selected;
 
     public bool IsSkyBox

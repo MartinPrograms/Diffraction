@@ -29,7 +29,9 @@ Global Variables: (outside this script)
     ]]--
 
 function Start()
-    print("This is a test movement script.")
+    print("Martin's testing script has started!")
+    print("This script is used to test the Input module, and the Transform class for an example movement script!!")
+    print("WASD to move, Shift to sprint!!!")
 end
 
 function Update()
