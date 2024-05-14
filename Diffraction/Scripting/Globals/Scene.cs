@@ -7,7 +7,7 @@ using Diffraction.Rendering;
 using Diffraction.Rendering.Meshes;
 
 using Newtonsoft.Json;
-
+using JsonConverter = Newtonsoft.Json.JsonConverter;
 using Object = Diffraction.Rendering.Objects.Object;
 
 namespace Diffraction.Scripting.Globals;
@@ -30,21 +30,26 @@ public class ObjectScene : EventObject
         TypeNameHandling = TypeNameHandling.All,
         Formatting = Formatting.Indented,
         ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-        PreserveReferencesHandling = PreserveReferencesHandling.Objects
+        PreserveReferencesHandling = PreserveReferencesHandling.None,
+        Converters = new List<JsonConverter>()
+        {
+        }
     };
 
     public void Play()
     {
         // Convert Objects to JSON
-        string json = JsonConvert.SerializeObject(Objects, _jsonSettings);
+        var objects = Objects;
+        string json = JsonConvert.SerializeObject(objects, _jsonSettings);
         
         // Write JSON to file
         System.IO.File.WriteAllText(_backupPath, json);
         
         _isPlaying = true;
+        LuaManager.ScanGlobals();
+
     }
      
-
     public void Stop()
     {
         _isPlaying = false;
@@ -52,15 +57,19 @@ public class ObjectScene : EventObject
         // Convert JSON to Objects
         string json = System.IO.File.ReadAllText(_backupPath);
         Objects = JsonConvert.DeserializeObject<List<Object>>(json, _jsonSettings);
+
+        
         Reload?.Invoke();
         _started = false;
-        
+        LuaManager.ScanGlobals();
+
     }
     
     public ObjectScene(string workingDirectory)
     {
         Environment.CurrentDirectory = workingDirectory;
         Instance = this;
+        LuaManager.ScanGlobals();
     }
     
     public List<Rendering.Objects.Object> Objects = new();
@@ -141,14 +150,9 @@ public class ObjectScene : EventObject
 
     public void ReloadScene()
     {
-        _isPlaying = false;
-        _started = false;
-        Objects.Clear();
-        
-        string json = System.IO.File.ReadAllText(_backupPath);
-        Objects = JsonConvert.DeserializeObject<List<Object>>(json, _jsonSettings);
-        Reload?.Invoke();
-        
-        Reload?.Invoke();
+        this.Play();
+        this.Stop();
+        this.Play();
+        this.Stop();
     }
 }

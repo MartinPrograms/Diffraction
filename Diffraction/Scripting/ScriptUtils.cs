@@ -9,9 +9,10 @@ public static class ScriptUtils
 	
 	public static Script Load(string path, sObject parent)
 	{
-		Scripts[parent.Id.ToString() + path] = new Script(System.IO.File.ReadAllText(path)){Path = path, Parent = parent};
+		Scripts[parent.Id.ToString() + path] = new Script(System.IO.File.ReadAllText(path), path, parent);
 		sScripts.Add(new sScript(path, parent));
-		return new Script(System.IO.File.ReadAllText(path)){Path = path, Parent = parent};
+		
+		return Scripts[parent.Id.ToString() + path];
 	}
 	
 	public static IEnumerable<Script> Find(sObject parent)

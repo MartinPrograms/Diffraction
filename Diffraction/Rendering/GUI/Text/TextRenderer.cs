@@ -133,7 +133,7 @@ public class TextRenderer
 /// <param name="y"></param>
 /// <param name="scale"></param>
 /// <param name="color"></param>
-    public static unsafe void RenderText(GL gl, string fontName, string text, float x, HorizontalAlignment horizontalAlignment, float y, VerticalAlignment verticalAlignment, float scale, Vector3 color)
+    public static unsafe void RenderText(GL gl, string fontName, string text, float x, HorizontalAlignment horizontalAlignment, float y, VerticalAlignment verticalAlignment, float scale, Vector4 color)
     {
         if (!Characters.ContainsKey(fontName))
         {
@@ -142,7 +142,7 @@ public class TextRenderer
         }
         
         _shader.Use();
-        _shader.SetVec3("textColor", color);
+        _shader.SetVec4("textColor", color);
         gl.ActiveTexture(TextureUnit.Texture0);
         gl.BindVertexArray(VAO);
         
@@ -167,8 +167,8 @@ public class TextRenderer
         
         float textHeight = Characters[fontName].Values.Max(c => c.Size.Y) * scale;
         
-        int screenWidth = Window.Instance.IWindow.Size.X;
-        int screenHeight = Window.Instance.IWindow.Size.Y;
+        int screenWidth = Window.Instance.IWindow.FramebufferSize.X;
+        int screenHeight = Window.Instance.IWindow.FramebufferSize.Y;
         
         
         

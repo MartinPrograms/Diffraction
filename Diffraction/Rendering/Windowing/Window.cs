@@ -63,6 +63,14 @@ public class Window
             
             _gl.Enable(EnableCap.DepthTest);
             
+            /*
+               glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+               glEnable( GL_BLEND );
+             */
+            
+            _gl.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            _gl.Enable(EnableCap.Blend);
+            
             TextRenderer.Init(_gl);
             TextRenderer.LoadFont(_gl, "Ruda", "Editor/Fonts/ruda-variable.ttf", 14);
          
@@ -95,6 +103,9 @@ public class Window
             Render?.Invoke(time);
             
             LateRender?.Invoke(time);
+            
+            LateRenderQueue?.Invoke(time);
+            LateRenderQueue = null;
         };
         
         _window.Resize += (size) =>
@@ -141,4 +152,6 @@ public class Window
             _fullscreen = true;
         }
     }
+
+    public event Action<double> LateRenderQueue;
 }

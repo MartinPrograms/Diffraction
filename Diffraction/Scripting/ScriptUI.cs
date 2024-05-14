@@ -27,37 +27,28 @@ public class ScriptUI : EventObject
 
 		foreach (Script s in scripts)
 		{
-			// Show the path, and some properties (like the parent, scripts global variables, etc.)
-			if (ImGui.CollapsingHeader("Script Data"))
-			{
-				// Reload button, open in vscode button
-				ImGui.Columns(2);
-				
-				if (ImGui.Button("Reload"))
-				{
-					s.Reload();
-				}
-				
-				ImGui.NextColumn();
-				
-				if (ImGui.Button("Open in VSCode"))
-				{
-					Utilities.LaunchVSCode(s.Path);
-				}
-				
-				// end the header
-				
-				ImGui.Columns(1);
-				ImGui.Separator();
-				ImGui.NewLine();
-				
-			}
-			
 			if (ImGui.CollapsingHeader(s.Path))
 			{
 				ImGui.Text("Parent: " + s.Parent.GetObject().Name);
 				ImGui.Text("Path: " + s.Path);
 				ImGui.Text("Name: " + s.Name);
+				
+				ImGui.Columns(2);
+				if (ImGui.Button("Reload"))
+				{
+					string text = System.IO.File.ReadAllText(s.Path);
+					s.Reload(text);
+				}
+				
+				ImGui.NextColumn();
+				
+				if (ImGui.Button("Open in VSC"))
+				{
+					Utilities.LaunchVSCode(s.Path);
+				}
+				
+				ImGui.NextColumn();
+				ImGui.Columns(1);
 				
 				ImGui.NewLine();
 				ImGui.Text("Global Variables");

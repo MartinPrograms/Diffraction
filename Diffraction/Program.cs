@@ -140,7 +140,7 @@ window.Open += () =>
         
         var script = Script.Load("Scripts/testing.lua", new sObject(obj.Id));
         
-        obj.Components.Add(new PhysicsObject(new sObject(obj.Id), new sRigidbody(new sCollisionShape(CollisionShapeType.Box, obj.Transform.Scale.ToList(), obj.Transform.Position, obj.Transform.Rotation, 10))));
+        // obj.Components.Add(new PhysicsObject(new sObject(obj.Id), new sRigidbody(new sCollisionShape(CollisionShapeType.Box, obj.Transform.Scale.ToList(), obj.Transform.Position, obj.Transform.Rotation, 10))));
         
         obj.Components.Add(script);
         

@@ -13,9 +13,10 @@ namespace Diffraction.Scripting;
 
 public class Script : EventObject
 {
+    [JsonIgnore]
     public string Code;
     public string Path;
-    public string Name => System.IO.Path.GetFileName(Path);
+    public string Name => System.IO.Path.GetFileNameWithoutExtension(Path);
     
     [JsonProperty]
     private sObject _parent;
@@ -37,23 +38,33 @@ public class Script : EventObject
         return ScriptUtils.Load(path, parent);
     }
     
-    public Script(string code)
+    public Script(string code, string path, sObject parent)
+    {
+        Path = path;
+        _parent = parent;
+        Setup(code);
+    }
+
+    private void Setup(string code)
     {
         Code = code;
         _lua = new Lua();
         
-        _lua.Run(code);
+        _lua.Run(File.ReadAllText(Path));
         
         _start = (LuaFunction)_lua.Get("Start");
         _update = (LuaFunction)_lua.Get("Update");
+        
+        LuaManager.Instance.Add(this);
     }
-    
+
     bool _started = false;
 
     public Dictionary<string, object> Parameters = new();
     
     public override unsafe void Update(double time)
     {
+        if (!runEvents) return;
         try
         {
             if (!_started)
@@ -86,34 +97,45 @@ public class Script : EventObject
 
     private void SetParameters()
     {
-        var parent = _parent.GetObject();
-        var allFields = parent.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
-        var fields = new List<Tuple<string, FieldInfo>>();
-        foreach (var field in allFields)
         {
-            if (field.GetCustomAttribute<ExposeToLua>() != null)
+            // Values based on the parent:
+            var parent = _parent.GetObject();
+            var allFields = parent.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
+            var fields = new List<Tuple<string, FieldInfo>>();
+            foreach (var field in allFields)
             {
-                fields.Add(new Tuple<string, FieldInfo>(field.GetCustomAttribute<ExposeToLua>().Name, field));
+                if (field.GetCustomAttribute<ExposeToLua>() != null)
+                {
+                    fields.Add(new Tuple<string, FieldInfo>(field.GetCustomAttribute<ExposeToLua>().Name, field));
+                }
             }
-        }
-        if (Parameters.Count != fields.Count)
-        {
-            foreach (var field in fields)
-            {
-                Parameters[field.Item1] = field.Item2.GetValue(parent);
-                Set(field.Item1, field.Item2.GetValue(parent));
-            }
+
+                foreach (var field in fields)
+                {
+                    Parameters[field.Item1] = field.Item2.GetValue(parent);
+                    Set(field.Item1, field.Item2.GetValue(parent));
+                }
+            
         }
     }
-
-    public void Set(string name, object value)
+    
+    
+    public void Set(string name, object value, bool isGlobal = false)
     {
         _lua.Set(name, value);
+        
+        if (isGlobal)
+            Parameters[name] = value;
     }
     
     public void Dispose()
     {
+        _start.Dispose();
+        _update.Dispose();
+        
         _lua.Dispose();
+        
+        LuaManager.Instance.Remove(this);
     }
     
     public void Declare(string name, object value)
@@ -133,18 +155,13 @@ public class Script : EventObject
     }
     
     public event Action AfterUpdate;
+    
+    private bool runEvents = true;
 
-    public void Reload()
+    public void Reload(string code)
     {
-        _lua.Dispose();
-        _lua = new Lua();
-        
-        _lua.Run(Code);
-        
-        _start = (LuaFunction)_lua.Get("Start");
-        _update = (LuaFunction)_lua.Get("Update");
+        ObjectScene.Instance.ReloadScene();
     }
-
     public Dictionary<string, object> GetVariables()
     {
         return Parameters;

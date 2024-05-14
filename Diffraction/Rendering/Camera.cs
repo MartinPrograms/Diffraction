@@ -1,6 +1,7 @@
 using System.Numerics;
 using Silk.NET.GLFW;
 using Diffraction.Input;
+using Diffraction.Scripting.Globals;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using MouseButton = Silk.NET.Input.MouseButton;
@@ -8,20 +9,23 @@ using MouseButton = Silk.NET.Input.MouseButton;
 namespace Diffraction.Rendering;
 
 using Input = Diffraction.Input.Input;
+[Serializable]
 
 public class Camera : EventObject
 {
-    public Vector3 Position { get; set; }
-    public Vector2D<int> Resolution { get; set; }
-    public Vector3 Forward { get; set; }
+    [ExposeToLua("MainCamera", true)] public static Camera MainCamera;
+    public bool IsMainCamera;
+
+    public Vector3 Position;
+    public Vector2D<int> Resolution;
+    public Vector3 Forward;
     private Vector3 _targetForward;
-    public float TargetSpeed { get; set; } = 12; // Lerp speed
-    public Vector3 Up { get; set; }
-    public Vector3 Right { get; set; }
-    
-    public float FOV { get; set; }
-    public float AspectRatio { get; set; }
-    
+    public float TargetSpeed = 12; // Lerp speed
+    public Vector3 Up;
+    public Vector3 Right;
+
+    public float FOV;
+    public float AspectRatio;
     public Camera(Vector3 position, Vector3 forward, Vector3 up, float fov, float aspectRatio)
     {
         Position = position;
@@ -31,6 +35,12 @@ public class Camera : EventObject
         Right = Vector3.Cross(Forward, Up);
         FOV = fov;
         AspectRatio = aspectRatio;
+
+        if (MainCamera == null || IsMainCamera)
+        {
+            MainCamera = this;
+            IsMainCamera = true; // regardless of what the user sets, if there is no other main camera, this will be the main camera because we have to render something
+        }
     }
     
     public Matrix4x4 GetViewMatrix()
@@ -40,12 +50,25 @@ public class Camera : EventObject
     
     public Matrix4x4 GetProjectionMatrix()
     {
+        if (FOV > 180)
+        {
+            FOV = 180;
+        }
+        else if (FOV < 0)
+        {
+            FOV = 0;
+        }
         return Matrix4x4.CreatePerspectiveFieldOfView(MathUtils.ToRadians(FOV), AspectRatio, 0.1f, 1000f);
     }
     
-    public float Speed { get; set; } = 4f;
-    public float Sensitivity { get; set; } = 0.01f;
+    public float Speed = 4f;
+    public float Sensitivity  = 0.01f;
     private bool _mouseLocked = false;
+    
+    public void SetForward(Vector3 forward)
+    {
+        _targetForward = forward;
+    }
 
     public override void Update(double time)
     {

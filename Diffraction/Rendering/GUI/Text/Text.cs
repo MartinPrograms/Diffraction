@@ -1,6 +1,7 @@
 using System.Numerics;
 using Diffraction.Rendering.Meshes;
 using Diffraction.Rendering.Windowing;
+using Diffraction.Scripting.Globals;
 
 namespace Diffraction.Rendering.GUI.Text;
 
@@ -15,7 +16,7 @@ public class Text : EventObject
     private VerticalAlignment _verticalAlignment;
     private float _x;
     private float _y;
-    private Vector3 _color;
+    private Vector4 _color;
     
     public string TextValue
     {
@@ -59,13 +60,13 @@ public class Text : EventObject
         set => _y = value;
     }
     
-    public Vector3 Color
+    public Vector4 Color
     {
         get => _color;
         set => _color = value;
     }
     
-    public Text(string text, string font, float size, HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, float x, float y, Vector3 color)
+    public Text(string text, string font, float size, HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, float x, float y, Vector4 color)
     {
         _text = text;
         _font = font;
@@ -86,11 +87,30 @@ public class Text : EventObject
         _verticalAlignment = VerticalAlignment.Top;
         _x = 25;
         _y = 25;
-        _color = new Vector3(1, 1, 1);
+        _color = new Vector4(1, 1, 1,1);
     }
     
     public override void Render(Camera camera)
     {
         TextRenderer.RenderText(Window.Instance.GL, _font, _text, _x, _horizontalAlignment, _y, _verticalAlignment, _size, _color);
+    }
+}
+
+public static class StaticText
+{
+    public static void RenderTextB(string text)
+    {
+        Window.Instance.LateRenderQueue += d =>
+        {
+            TextRenderer.RenderText(Window.Instance.GL, TextRenderer.DefaultFont, text, 0, HorizontalAlignment.Center, 0, VerticalAlignment.Center, 1, new Vector4(1, 1, 1,1));
+        };
+    }
+    
+    public static void RenderTextA(string text, Vector2 position, float scale, Vector4 color)
+    {
+        Window.Instance.LateRenderQueue += d =>
+        {
+            TextRenderer.RenderText(Window.Instance.GL, TextRenderer.DefaultFont, text, position.X, HorizontalAlignment.Center, position.Y, VerticalAlignment.Center, scale, color);
+        };
     }
 }

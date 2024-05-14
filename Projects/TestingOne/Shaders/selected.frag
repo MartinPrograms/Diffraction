@@ -33,6 +33,9 @@ void main(){
         texColor.rgb = mix(texColor.rgb, rainbow, borderEffect);
     }
 
+    if (texColor.a < 0.1)
+        discard;
+
     
     fragColor = texColor;
 }

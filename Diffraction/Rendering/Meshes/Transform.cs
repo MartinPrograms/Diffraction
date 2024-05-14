@@ -1,4 +1,6 @@
 using System.Numerics;
+using Diffraction.Scripting;
+using Newtonsoft.Json;
 using Silk.NET.Maths;
 
 namespace Diffraction.Rendering.Meshes;
@@ -10,21 +12,7 @@ public class Transform
     public Quaternion Rotation;
     public Vector3 Scale;
 
-    public Vector3 Forward
-    {
-        get
-        {
-            var forward = Vector3.Transform(Vector3.UnitZ, new Quaternion(Rotation.X, Rotation.Y, Rotation.Z, Rotation.W));
-            return Vector3.Normalize(forward);
-        }
-        
-        set
-        {
-            var quat = Quaternion.CreateFromRotationMatrix(Matrix4x4.CreateLookAt(Position, Position + value,
-                Vector3.UnitY));
-            Rotation = new Quaternion(quat.X, quat.Y, quat.Z, quat.W);
-        }
-    }
+    public Vector3 Forward => Vector3.Transform(new Vector3(0, 0, 1), Matrix4x4.CreateFromQuaternion(new Quaternion(Rotation.X, Rotation.Y, Rotation.Z, Rotation.W)));
     
     public Transform(Vector3 position, Quaternion rotation, Vector3 scale)
     {
@@ -42,3 +30,4 @@ public class Transform
         return scale * rotation * translation;
     }
 }
+

@@ -7,34 +7,32 @@ namespace Diffraction.Scripting.Globals;
 
 public class Lua : EventObject
 {
-    private NLua.Lua State;
+    private NLua.Lua _state;
     
     public Lua()
     {
-        State = new NLua.Lua();
-        State.LoadCLRPackage ();
-        State.RegisterLuaClassType(typeof(Vector3), typeof(Vector3));
-        State.RegisterLuaClassType(typeof(Quaternion), typeof(Quaternion));
+        _state = new NLua.Lua();
+        _state.LoadCLRPackage ();
     }
     
     public object[] Run(string code)
     {
-        return State.DoString(code);
+        return _state.DoString(code);
     }
 
     public object[] RunFile(string path)
     {
-        return State.DoFile(path);
+        return _state.DoFile(path);
     }
     
     public void Set(string name, object value)
     {
-        State[name] = value;
+        _state[name] = value;
     }
     
     public object Get(string name)
     {
-        return State[name];
+        return _state[name];
     }
 
     public override void Update(double deltaTime)
@@ -44,17 +42,25 @@ public class Lua : EventObject
     
     public void Dispose()
     {
-        State.Dispose();
+        _state.Dispose();
     }
 }
 
 public class ExposeToLua : Attribute
 {
     public string Name;
+    public bool IsGlobal;
     
     public ExposeToLua(string name)
     {
         Name = name;
+        IsGlobal = false;
+    }
+
+    public ExposeToLua(string name, bool isGlobal)
+    {
+        Name = name;
+        IsGlobal = isGlobal;
     }
 }
 
