@@ -4,7 +4,7 @@
     {
       "$id": "1",
       "$type": "Diffraction.Rendering.Objects.Object, Diffraction",
-      "Id": "34e6370f-e4fd-4cef-b0b5-c88ae2543e82",
+      "Id": "9ef10b13-c955-4197-bebb-7217e25525ac",
       "Components": {
         "$type": "System.Collections.Generic.List`1[[Diffraction.Rendering.EventObject, Diffraction]], System.Private.CoreLib",
         "$values": [
@@ -57,7 +57,7 @@
               "Rotation": {
                 "$id": "12",
                 "$type": "System.Numerics.Vector4, System.Private.CoreLib",
-                "X": -0.0,
+                "X": 0.0,
                 "Y": 0.0,
                 "Z": 0.0,
                 "W": 1.0
@@ -90,7 +90,7 @@
               "Rotation": {
                 "$id": "17",
                 "$type": "System.Numerics.Vector4, System.Private.CoreLib",
-                "X": -0.0,
+                "X": 0.0,
                 "Y": 0.0,
                 "Z": 0.0,
                 "W": 1.0
@@ -118,7 +118,7 @@
             "_parent": {
               "$id": "21",
               "$type": "Diffraction.Serializables.sObject, Diffraction",
-              "Id": "34e6370f-e4fd-4cef-b0b5-c88ae2543e82"
+              "Id": "9ef10b13-c955-4197-bebb-7217e25525ac"
             },
             "_body": {
               "$id": "22",
@@ -172,7 +172,7 @@
     {
       "$id": "26",
       "$type": "Diffraction.Rendering.Objects.Object, Diffraction",
-      "Id": "9585425c-7862-4bad-813b-48de65b05244",
+      "Id": "13b9f67d-6128-41b8-ab76-827f02e5cc10",
       "Components": {
         "$type": "System.Collections.Generic.List`1[[Diffraction.Rendering.EventObject, Diffraction]], System.Private.CoreLib",
         "$values": [
@@ -225,7 +225,7 @@
               "Rotation": {
                 "$id": "37",
                 "$type": "System.Numerics.Vector4, System.Private.CoreLib",
-                "X": -0.0,
+                "X": 0.0,
                 "Y": 0.0,
                 "Z": 0.0,
                 "W": 1.0
@@ -258,7 +258,7 @@
               "Rotation": {
                 "$id": "42",
                 "$type": "System.Numerics.Vector4, System.Private.CoreLib",
-                "X": -0.0,
+                "X": 0.0,
                 "Y": 0.0,
                 "Z": 0.0,
                 "W": 1.0
@@ -288,7 +288,7 @@
             "_parent": {
               "$id": "46",
               "$type": "Diffraction.Serializables.sObject, Diffraction",
-              "Id": "9585425c-7862-4bad-813b-48de65b05244"
+              "Id": "13b9f67d-6128-41b8-ab76-827f02e5cc10"
             },
             "Parameters": {
               "$id": "47",
@@ -301,7 +301,7 @@
             "_parent": {
               "$id": "49",
               "$type": "Diffraction.Serializables.sObject, Diffraction",
-              "Id": "9585425c-7862-4bad-813b-48de65b05244"
+              "Id": "13b9f67d-6128-41b8-ab76-827f02e5cc10"
             },
             "_rigidbody": {
               "$id": "50",
@@ -377,7 +377,7 @@
         ]
       },
       "ShaderName": "SkyboxShader",
-      "Id": "36ab354b-e49a-4601-a790-896d5f22d346",
+      "Id": "02099bfe-00e6-4084-922f-e7e69314d8b9",
       "Components": {
         "$type": "System.Collections.Generic.List`1[[Diffraction.Rendering.EventObject, Diffraction]], System.Private.CoreLib",
         "$values": []
@@ -401,7 +401,7 @@
         "Rotation": {
           "$id": "58",
           "$type": "System.Numerics.Vector4, System.Private.CoreLib",
-          "X": -0.0,
+          "X": 0.0,
           "Y": 0.0,
           "Z": 0.0,
           "W": 1.0

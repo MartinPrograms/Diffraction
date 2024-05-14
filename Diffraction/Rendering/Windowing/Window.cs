@@ -37,7 +37,23 @@ public class Window
     public unsafe Window(WindowOptions options)
     {
         MainThreadID = System.Threading.Thread.CurrentThread.ManagedThreadId;
+
+
+        if (OperatingSystem.IsMacOS())
+        {
+            Console.WriteLine("MacOS detected, checking OpenGL version...");
+            if (options.API.Version.MajorVersion >= 4)
+            {
+                if (options.API.Version.MinorVersion >= 1)
+                {
+                    Console.WriteLine($"OpenGL {options.API.Version.MajorVersion}.{options.API.Version.MinorVersion} is not supported on MacOS, setting to 4.1");
+                    options.API = new GraphicsAPI(ContextAPI.OpenGL, new APIVersion(4, 1));
+                }
+            }
+        }
+
         _window = Silk.NET.Windowing.Window.Create(options);
+
    
         _window.Load += () =>
         {
@@ -57,6 +73,9 @@ public class Window
             Audio.AudioFiles.Add(file);
             
             Open?.Invoke();
+            
+            _gl.Viewport(0, 0, (uint)_window.FramebufferSize.X, (uint)_window.FramebufferSize.Y);
+
         };
         
         _window.Update += (time) =>
@@ -82,7 +101,7 @@ public class Window
         {
             Resize?.Invoke(size);
             
-            _gl.Viewport(0, 0, (uint)size.X, (uint)size.Y);
+            _gl.Viewport(0, 0, (uint)_window.FramebufferSize.X, (uint)_window.FramebufferSize.Y);
         };
         
         _window.Closing += () =>

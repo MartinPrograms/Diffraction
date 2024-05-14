@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <PackageReference Include="FreeTypeSharp" Version="3.0.0" />
+      <PackageReference Include="MagicPhysX" Version="1.0.0" />
       <PackageReference Include="MessagePack" Version="2.6.100-alpha" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0-preview.3.24172.9" />
       <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.0-preview.3.24172.9" />

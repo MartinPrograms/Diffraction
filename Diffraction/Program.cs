@@ -217,7 +217,7 @@ window.Render += (time) =>
         scene.Render(camera);
         renderTexture.Unbind();
     
-        window.GL.Viewport(0, 0, (uint)window.IWindow.Size.X, (uint)window.IWindow.Size.Y);
+        window.GL.Viewport(0, 0, (uint)window.IWindow.FramebufferSize.X, (uint)window.IWindow.FramebufferSize.Y);
         
         ImGui.DockSpaceOverViewport();
 
@@ -235,12 +235,12 @@ window.Render += (time) =>
     }
     else
     {            
-        Vector2 size = new Vector2(window.IWindow.Size.X, window.IWindow.Size.Y);
+        Vector2 size = new Vector2(window.IWindow.FramebufferSize.X, window.IWindow.FramebufferSize.Y);
         camera.Resolution = new Vector2D<int>((int)size.X, (int)size.Y);
         camera.AspectRatio = (float)size.X / size.Y;
         
         scene.Render(camera);
-        window.GL.Viewport(0, 0, (uint)window.IWindow.Size.X, (uint)window.IWindow.Size.Y);
+        window.GL.Viewport(0, 0, (uint)window.IWindow.FramebufferSize.X, (uint)window.IWindow.FramebufferSize.Y);
 
     }
     
