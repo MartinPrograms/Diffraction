@@ -13,7 +13,7 @@ public class Transform
     public Vector3 Scale;
 
     public Vector3 Forward => Vector3.Transform(new Vector3(0, 0, 1), Matrix4x4.CreateFromQuaternion(new Quaternion(Rotation.X, Rotation.Y, Rotation.Z, Rotation.W)));
-    
+    public Vector3 Right => - Vector3.Transform(new Vector3(1, 0, 0), Matrix4x4.CreateFromQuaternion(new Quaternion(Rotation.X, Rotation.Y, Rotation.Z, Rotation.W)));
     public Transform(Vector3 position, Quaternion rotation, Vector3 scale)
     {
         Position = position;

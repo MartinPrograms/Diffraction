@@ -29,6 +29,18 @@ public class ScriptUI : EventObject
 		{
 			if (ImGui.CollapsingHeader(s.Path))
 			{
+				if (s == null)
+				{
+					ImGui.Text("Script is null");
+					return;
+				}
+				
+				if (s.Parent.GetObject() == null)
+				{
+					ImGui.Text("Parent is null");
+					return;
+				}
+				
 				ImGui.Text("Parent: " + s.Parent.GetObject().Name);
 				ImGui.Text("Path: " + s.Path);
 				ImGui.Text("Name: " + s.Name);

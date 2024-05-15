@@ -16,6 +16,10 @@ public class PhysicsObject : EventObject, IPhysicsObject
     private sObject _parent;
     [JsonProperty]
     private sRigidbody _rigidbody;
+
+    public LockRotationFlags LockRotation;
+    public bool IsGrounded;
+    
     public PhysicsObject(sObject parent, sRigidbody body)
     {
         _parent = parent;
@@ -25,6 +29,26 @@ public class PhysicsObject : EventObject, IPhysicsObject
         {
             _rigidbody.CreateRigidbody();
         }
+        
+        Name = "PhysicsObject";
+        
+        body.AddEnterEvent((a, b) =>
+        {
+            var objB = b as Rigidstatic;
+            if (objB != null)
+            {
+                IsGrounded = true;
+            }
+        });
+        
+        body.AddExitEvent((a, b) =>
+        {
+            var objB = b as Rigidstatic;
+            if (objB != null)
+            {
+                IsGrounded = false;
+            }
+        });
     }
 
     public PhysicsObject()
@@ -54,9 +78,25 @@ public class PhysicsObject : EventObject, IPhysicsObject
     public override void Update(double time)
     {
         _parent.GetObject().Transform.Position = _rigidbody.Rb.position;
-        _parent.GetObject().Transform.Rotation = new Quaternion(_rigidbody.Rb.rotation.X, _rigidbody.Rb.rotation.Y, _rigidbody.Rb.rotation.Z, _rigidbody.Rb.rotation.W);
         
-        Console.WriteLine(_rigidbody.Rb.velocity);
+        Quaternion rotation = new Quaternion(_rigidbody.Rb.rotation.X, _rigidbody.Rb.rotation.Y, _rigidbody.Rb.rotation.Z, _rigidbody.Rb.rotation.W);
+
+        if (LockRotation.HasFlag(LockRotationFlags.X))
+        {
+            rotation.X = _parent.GetObject().Transform.Rotation.X;
+        }
+        
+        if (LockRotation.HasFlag(LockRotationFlags.Y))
+        {
+            rotation.Y = _parent.GetObject().Transform.Rotation.Y;
+        }
+        
+        if (LockRotation.HasFlag(LockRotationFlags.Z))
+        {
+            rotation.Z = _parent.GetObject().Transform.Rotation.Z;
+        }
+
+        _parent.GetObject().Transform.Rotation = rotation;
     }
 
     public void SetPhysicsTransform(Transform objTransform)
@@ -67,7 +107,20 @@ public class PhysicsObject : EventObject, IPhysicsObject
 
     public void AddForce(Vector3 force)
     {
-        _rigidbody.Rb.velocity = Vector3.Zero;
-        _rigidbody.Rb.velocity += force;
+        _rigidbody.Rb.AddForce(force, ForceMode.Impulse);
     }
+    public void AddForce(Vector3 force, ForceMode mode)
+    {
+        _rigidbody.Rb.AddForce(force, mode);
+    }
+}
+
+[Flags]
+public enum LockRotationFlags
+{
+    None = 0,
+    X = 1,
+    Y = 2,
+    Z = 4,
+    All = X | Y | Z
 }

@@ -28,6 +28,7 @@ public sealed unsafe partial class PhysicsScene : IDisposable
         return null !;
     }
     
+    
     public PhysicsScene(PhysicsSystem physicsSystem, PxScene* scene)
     {
         this.physicsSystem = physicsSystem;

@@ -38,4 +38,13 @@ public class sRigidbody
             Rb = Simulation.Instance.AddDynamicSphere(Shape.Sizes[0], Shape.Position, Shape.Rotation, Shape.Density);
         }
     }
+    public void AddEnterEvent(Action<RigidActor, RigidActor> action)
+    {
+        Rb.OnCollisionEnter += action;
+    }
+
+    public void AddExitEvent(Action<RigidActor, RigidActor> action)
+    {
+        Rb.OnCollisionExit += action;
+    }
 }

@@ -92,7 +92,6 @@ public class MainMenuBar : EventObject
         
         if (ImGui.MenuItem("Reload"))
         {
-            Simulation.Instance.Clear();
             ObjectScene.Instance.ReloadScene();
         }
     }

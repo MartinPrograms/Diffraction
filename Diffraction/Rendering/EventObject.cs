@@ -6,6 +6,7 @@ namespace Diffraction.Rendering;
 [Serializable]
 public class EventObject
 {
+    public string Name;
     public virtual void Update(double time)
     {
     }

@@ -135,7 +135,7 @@ public class ObjectScene : EventObject
         }
     }
 
-    public Object GetObject(Guid id)
+    public Object? GetObject(Guid id)
     {
         foreach (Object obj in Objects)
         {

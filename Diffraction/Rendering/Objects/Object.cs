@@ -12,10 +12,13 @@ public class Object : EventObject
 {
     public Guid Id = Guid.NewGuid();
     
+    [ExposeToLua("Components")]
     public List<EventObject> Components = new();
     
+    [ExposeToLua("Children")]
     public List<Object> Children = new();
     
+    [ExposeToLua("Name")]
     public string Name = "Object";
     
     public Object()
@@ -27,13 +30,16 @@ public class Object : EventObject
         Name = name;
     }
     
+    [ExposeToLua("IsVisible")]
     public bool IsVisible = true;
     
     [ExposeToLua("Transform")]
     public Transform Transform = new Transform(new Vector3(0, 5, 0), new Quaternion(0,0,0,1), new Vector3(1, 1, 1));
     
-    [ExposeToLua("Selected")]
-    public bool Selected;
+    public EventObject GetComponent(string name)
+    {
+        return Components.FirstOrDefault(component => component.Name == name);
+    }
 
     public bool IsSkyBox
     {
@@ -50,6 +56,7 @@ public class Object : EventObject
         }
     }
 
+    public bool Selected = false;
 
     public override void Render(Camera camera)
     {
@@ -61,7 +68,7 @@ public class Object : EventObject
             }
         }
         
-        if (IsVisible && !Selected)
+        if (IsVisible)
         {
             foreach (Mesh mesh in Components.OfType<Mesh>())
             {

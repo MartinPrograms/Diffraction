@@ -78,6 +78,26 @@ public static class Input
     {
         return new Vector2(_mouseScroll.X, _mouseScroll.Y);
     }
+    
+    static bool isMouseLocked = false;
+
+    public static bool IsMouseLocked()
+    {
+        return isMouseLocked;
+    }
+
+    public static void ToggleMouseLock()
+    {
+        isMouseLocked = !isMouseLocked;
+        if (isMouseLocked)
+        {
+            _input.Mice[0].Cursor.CursorMode = CursorMode.Raw;
+        }
+        else
+        {
+            _input.Mice[0].Cursor.CursorMode = CursorMode.Normal;
+        }
+    }
 
     public static void SetInput(IInputContext input)
     {

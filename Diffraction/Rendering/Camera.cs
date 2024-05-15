@@ -72,7 +72,7 @@ public class Camera : EventObject
 
     public override void Update(double time)
     {
-        if (Input.GetMouseButton(MouseButton.Right))
+        if (Input.GetMouseButton(MouseButton.Right) && ObjectScene.Instance.Paused)
         {
             _mouseLocked = true;
             if (Input.GetKey(Key.W))
@@ -110,19 +110,22 @@ public class Camera : EventObject
             _mouseLocked = false;
         }
 
-        if (_mouseLocked)
+        if (ObjectScene.Instance.Paused)
         {
-            var delta = Input.MouseDelta;
-            _targetForward = Vector3.Transform(_targetForward,
-                Matrix4x4.CreateFromAxisAngle(Up, -delta.X * 0.1f * Sensitivity));
-            _targetForward = Vector3.Transform(_targetForward,
-                Matrix4x4.CreateFromAxisAngle(Right, -delta.Y * 0.1f * Sensitivity));
+            if (_mouseLocked)
+            {
+                var delta = Input.MouseDelta;
+                _targetForward = Vector3.Transform(_targetForward,
+                    Matrix4x4.CreateFromAxisAngle(Up, -delta.X * 0.1f * Sensitivity));
+                _targetForward = Vector3.Transform(_targetForward,
+                    Matrix4x4.CreateFromAxisAngle(Right, -delta.Y * 0.1f * Sensitivity));
 
-            Input.SetCursorMode(CursorMode.Raw);
-        }
-        else
-        {
-            Input.SetCursorMode(CursorMode.Normal);
+                Input.SetCursorMode(CursorMode.Raw);
+            }
+            else
+            {
+                Input.SetCursorMode(CursorMode.Normal);
+            }
         }
 
         if (Input.GetKeyUp(Key.Escape))
@@ -130,8 +133,16 @@ public class Camera : EventObject
             _mouseLocked = !_mouseLocked;
         }
 
-        Forward = Vector3.Lerp(Forward, _targetForward, TargetSpeed * (float)time);
-        Right = Vector3.Cross(Forward, Up);
+        if (TargetSpeed == 0)
+        {
+            Forward = _targetForward;
+            Right = Vector3.Cross(Forward, Up);
+        }
+        else
+        {
+            Forward = Vector3.Lerp(Forward, _targetForward, TargetSpeed * (float)time);
+            Right = Vector3.Cross(Forward, Up);
+        }
     }
 
 

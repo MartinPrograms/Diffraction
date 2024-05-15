@@ -7,7 +7,7 @@ public class sObject
 {
     public Guid Id;
     
-    public Object GetObject()
+    public Object? GetObject()
     {
         return ObjectScene.Instance.GetObject(Id);
     }

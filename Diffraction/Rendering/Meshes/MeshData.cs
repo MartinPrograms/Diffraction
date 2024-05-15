@@ -58,8 +58,9 @@ public class MeshData
         _gl.BindVertexArray(_vao);
     }
 
-    public unsafe void Draw()
+    public unsafe void Draw() 
     {
+        _gl.CullFace(GLEnum.Back);
         _gl.PolygonMode(TriangleFace.FrontAndBack, PolygonMode.Fill);
         _gl.DrawElements(PrimitiveType.Triangles, (uint)_vertexCount, DrawElementsType.UnsignedInt, null);
     }

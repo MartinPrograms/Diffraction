@@ -100,22 +100,38 @@ public class Script : EventObject
         {
             // Values based on the parent:
             var parent = _parent.GetObject();
-            var allFields = parent.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
-            var fields = new List<Tuple<string, FieldInfo>>();
-            foreach (var field in allFields)
+            // Get all the fields, and if they have the ExposeToLua attribute, set them
+            foreach (var field in parent.GetType().GetFields())
             {
                 if (field.GetCustomAttribute<ExposeToLua>() != null)
                 {
-                    fields.Add(new Tuple<string, FieldInfo>(field.GetCustomAttribute<ExposeToLua>().Name, field));
+                    Set(field.Name, field.GetValue(parent));
+                    Parameters[field.Name] = field.GetValue(parent);
                 }
             }
-
-                foreach (var field in fields)
-                {
-                    Parameters[field.Item1] = field.Item2.GetValue(parent);
-                    Set(field.Item1, field.Item2.GetValue(parent));
-                }
             
+            // Get all the functions, and if they have the ExposeToLua attribute, set them
+            foreach (var method in parent.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public))
+            {
+                if (method.GetCustomAttribute<ExposeToLua>() != null)
+                {
+                    Set(method.Name, method);
+                    Parameters[method.Name] = method;
+                }
+            }
+            
+            // Get all the properties, and if they have the ExposeToLua attribute, set them
+            foreach (var property in parent.GetType().GetProperties())
+            {
+                if (property.GetCustomAttribute<ExposeToLua>() != null)
+                {
+                    Set(property.Name, property.GetValue(parent));
+                    Parameters[property.Name] = property.GetValue(parent);
+                }
+            }
+            
+            Set("this", parent);
+            Parameters["this"] = parent;
         }
     }
     
