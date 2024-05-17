@@ -45,6 +45,8 @@ function Update()
     local speed = 5
     local jumpForce = 5
 
+    local direction = Vector3.Zero
+
     if (Input.GetKey(Key.ShiftLeft)) then
         speed = 10
     end
@@ -55,21 +57,30 @@ function Update()
     end
 
     if (Input.GetKey(Key.W)) then
-        Transform.Position = Transform.Position + forward * Time.DeltaTime * speed
+        direction = direction + forward * Time.DeltaTime;
     end
 
     if (Input.GetKey(Key.S)) then
-        Transform.Position = Transform.Position - forward * Time.DeltaTime * speed
+        direction = direction - forward * Time.DeltaTime;
     end
 
     if (Input.GetKey(Key.A)) then
-        Transform.Position = Transform.Position - Transform.Right * Time.DeltaTime * speed
+        direction = direction - Transform.Right * Time.DeltaTime;
     end
 
     if (Input.GetKey(Key.D)) then
-        Transform.Position = Transform.Position + Transform.Right * Time.DeltaTime * speed
+        direction = direction + Transform.Right * Time.DeltaTime;
     end
-    
+
+    direction = Vector3.Normalize(direction) * speed
+    if (direction:Length() > 0) then
+        local velocity = rigidbody.Velocity
+        velocity.X = direction.X
+        velocity.Z = direction.Z
+
+        rigidbody.Velocity = velocity
+    end
+
     -- Grounded check
     local bottom = Transform.Position - Vector3.UnitY * 1.01
     local ray = Raycast.RaycastScene(bottom, -Vector3.UnitY, 0.1)
@@ -84,12 +95,12 @@ function Update()
     -- Now for mouse movement
     local mouseDelta = Input.GetMouseDelta()
 
-    if (Input.IsMouseLocked()) then
-        Transform.Rotation = Transform.Rotation * Quaternion.CreateFromAxisAngle(Vector3.UnitY, -mouseDelta.X * Time.DeltaTime * 0.5)
-        
+    if (Input.IsMouseLocked()) then        
         --Rotate the camera forward along the x & y axis
-        MainCamera.Pitch = MainCamera.Pitch - mouseDelta.Y * Time.DeltaTime * 0.5
-        MainCamera.Yaw = MainCamera.Yaw - mouseDelta.X * Time.DeltaTime * 0.5
+        MainCamera:SetPitch(MainCamera.Pitch - mouseDelta.Y * Time.DeltaTime * 0.5)
+        MainCamera:SetYaw(MainCamera.Yaw + mouseDelta.X * Time.DeltaTime * 0.5)
+
+        Transform.Rotation = Quaternion.CreateFromYawPitchRoll(-MainCamera.Yaw + math.pi / 2, 0, 0)
     end
 
     if (Input.GetKeyUp(Key.Escape)) then

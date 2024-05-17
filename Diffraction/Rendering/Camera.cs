@@ -2,6 +2,7 @@ using System.Numerics;
 using Silk.NET.GLFW;
 using Diffraction.Input;
 using Diffraction.Scripting.Globals;
+using MagicPhysX.Toolkit;
 using Silk.NET.Input;
 using Silk.NET.Maths;
 using MouseButton = Silk.NET.Input.MouseButton;
@@ -42,6 +43,21 @@ public class Camera : EventObject
         {
             MainCamera = this;
         }
+    }
+    
+    public void SetPitch(float pitch)
+    {
+        _targetPitch = pitch;
+    }
+    
+    public void SetYaw(float yaw)
+    {
+        _targetYaw = yaw;
+    }
+    
+    public void SetRoll(float roll)
+    {
+        _targetRoll = roll;
     }
     
     public Matrix4x4 GetViewMatrix()

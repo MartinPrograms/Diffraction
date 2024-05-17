@@ -29,7 +29,7 @@ public unsafe class Simulation : EventObject
         physics = new PhysicsSystem(enablePvd: false);
         scene = physics.CreateScene();
         
-        material = physics.CreateMaterial(0.5f, 0.5f, .0f);
+        material = physics.CreateMaterial(1f, 1f, .0f);
         
         Instance = this;
     }
