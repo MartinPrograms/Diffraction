@@ -2,6 +2,7 @@
 using MagicPhysX;
 using static MagicPhysX.NativeMethods;
 using System.Numerics;
+using Diffraction.Physics;
 using MagicPhysX.Toolkit.Colliders;
 
 namespace MagicPhysX.Toolkit;
@@ -242,5 +243,21 @@ public sealed unsafe partial class PhysicsScene : IDisposable
         {
             Destroy(actor);
         }
+    }
+    
+    public void Raycast(Vector3 origin, Vector3 direction, float distance, out HitData data)
+    {
+        PxRaycastHit hitData= new PxRaycastHit();
+        PxQueryFilterData filterData = new PxQueryFilterData();
+        filterData.flags = PxQueryFlags.Dynamic | PxQueryFlags.Static | PxQueryFlags.AnyHit;
+        
+        var hit = scene->QueryExtRaycastSingle(origin.AsPxPointer(), direction.AsPxPointer(), distance, PxHitFlags.Position | PxHitFlags.Normal, &hitData, &filterData, null,null);
+
+        data = new HitData();
+        data.Hit = hit;
+        data.Position = hitData.position;
+        data.Normal = hitData.normal;
+        data.Distance = hitData.distance;
+        data.Object = GetActor(hitData.actor);
     }
 }

@@ -3,7 +3,7 @@
   "$values": [
     {
       "$type": "Diffraction.Rendering.Objects.Object, Diffraction",
-      "Id": "fcb27e99-b05c-42f6-8184-3af14cba1b36",
+      "Id": "e2ab7bb7-c5b9-4b8e-8e0a-cb11f68c9bd8",
       "Components": {
         "$type": "System.Collections.Generic.List`1[[Diffraction.Rendering.EventObject, Diffraction]], System.Private.CoreLib",
         "$values": [
@@ -62,6 +62,12 @@
                 "X": 0.0,
                 "Y": 0.0,
                 "Z": 1.0
+              },
+              "Right": {
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": -1.0,
+                "Y": 0.0,
+                "Z": 0.0
               }
             },
             "_parentTransform": {
@@ -91,15 +97,22 @@
                 "X": 0.0,
                 "Y": 0.0,
                 "Z": 1.0
+              },
+              "Right": {
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": -1.0,
+                "Y": 0.0,
+                "Z": 0.0
               }
             },
-            "IsSkybox": false
+            "IsSkybox": false,
+            "Name": null
           },
           {
             "$type": "Diffraction.Physics.StaticPhysicsObject, Diffraction",
             "_parent": {
               "$type": "Diffraction.Serializables.sObject, Diffraction",
-              "Id": "fcb27e99-b05c-42f6-8184-3af14cba1b36"
+              "Id": "e2ab7bb7-c5b9-4b8e-8e0a-cb11f68c9bd8"
             },
             "_body": {
               "$type": "Diffraction.Serializables.sRigidstatic, Diffraction",
@@ -130,7 +143,8 @@
                 },
                 "Density": 0.0
               }
-            }
+            },
+            "Name": null
           }
         ]
       },
@@ -167,6 +181,12 @@
           "X": 0.0,
           "Y": 0.0,
           "Z": 1.0
+        },
+        "Right": {
+          "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+          "X": -1.0,
+          "Y": 0.0,
+          "Z": 0.0
         }
       },
       "Selected": false,
@@ -174,7 +194,7 @@
     },
     {
       "$type": "Diffraction.Rendering.Objects.Object, Diffraction",
-      "Id": "2748e556-03c8-43fa-bdec-d864d946757b",
+      "Id": "56ecaa89-aac4-4610-8ddc-fc814d56d7bd",
       "Components": {
         "$type": "System.Collections.Generic.List`1[[Diffraction.Rendering.EventObject, Diffraction]], System.Private.CoreLib",
         "$values": [
@@ -233,23 +253,29 @@
                 "X": 0.0,
                 "Y": 0.0,
                 "Z": 1.0
+              },
+              "Right": {
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": -1.0,
+                "Y": 0.0,
+                "Z": 0.0
               }
             },
             "_parentTransform": {
               "$type": "Diffraction.Rendering.Meshes.Transform, Diffraction",
               "Position": {
                 "$type": "System.Numerics.Vector3, System.Private.CoreLib",
-                "X": 0.0,
-                "Y": 5.0,
-                "Z": 0.0
+                "X": 15.109408,
+                "Y": 0.9999998,
+                "Z": -5.792992
               },
               "Rotation": {
                 "$type": "System.Numerics.Quaternion, System.Private.CoreLib",
                 "X": 0.0,
-                "Y": 0.0,
+                "Y": -0.8474551,
                 "Z": 0.0,
-                "W": 1.0,
-                "IsIdentity": true
+                "W": -0.53086716,
+                "IsIdentity": false
               },
               "Scale": {
                 "$type": "System.Numerics.Vector3, System.Private.CoreLib",
@@ -259,59 +285,373 @@
               },
               "Forward": {
                 "$type": "System.Numerics.Vector3, System.Private.CoreLib",
-                "X": 0.0,
+                "X": 0.89977217,
                 "Y": 0.0,
-                "Z": 1.0
+                "Z": -0.43636024
+              },
+              "Right": {
+                "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                "X": 0.43636024,
+                "Y": 0.0,
+                "Z": 0.89977217
               }
             },
-            "IsSkybox": false
+            "IsSkybox": false,
+            "Name": null
+          },
+          {
+            "$type": "Diffraction.Physics.PhysicsObject, Diffraction",
+            "_parent": {
+              "$type": "Diffraction.Serializables.sObject, Diffraction",
+              "Id": "56ecaa89-aac4-4610-8ddc-fc814d56d7bd"
+            },
+            "_rigidbody": {
+              "$type": "Diffraction.Serializables.sRigidbody, Diffraction",
+              "Shape": {
+                "$type": "Diffraction.Serializables.sCollisionShape, Diffraction",
+                "ShapeType": 0,
+                "Sizes": {
+                  "$type": "System.Collections.Generic.List`1[[System.Single, System.Private.CoreLib]], System.Private.CoreLib",
+                  "$values": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                "Position": {
+                  "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                  "X": 0.0,
+                  "Y": 5.0,
+                  "Z": 0.0
+                },
+                "Rotation": {
+                  "$type": "System.Numerics.Quaternion, System.Private.CoreLib",
+                  "X": 0.0,
+                  "Y": 0.0,
+                  "Z": 0.0,
+                  "W": 1.0,
+                  "IsIdentity": true
+                },
+                "Density": 10.0
+              }
+            },
+            "LockRotation": 7,
+            "IsGrounded": true,
+            "Name": "PhysicsObject",
+            "Velocity": {
+              "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+              "X": -4.4228914E-06,
+              "Y": -3.9041042E-06,
+              "Z": 7.6013115E-05
+            },
+            "Rigidbody": {
+              "$type": "Diffraction.Serializables.sRigidbody, Diffraction",
+              "Shape": {
+                "$type": "Diffraction.Serializables.sCollisionShape, Diffraction",
+                "ShapeType": 0,
+                "Sizes": {
+                  "$type": "System.Collections.Generic.List`1[[System.Single, System.Private.CoreLib]], System.Private.CoreLib",
+                  "$values": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                  ]
+                },
+                "Position": {
+                  "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                  "X": 0.0,
+                  "Y": 5.0,
+                  "Z": 0.0
+                },
+                "Rotation": {
+                  "$type": "System.Numerics.Quaternion, System.Private.CoreLib",
+                  "X": 0.0,
+                  "Y": 0.0,
+                  "Z": 0.0,
+                  "W": 1.0,
+                  "IsIdentity": true
+                },
+                "Density": 10.0
+              }
+            }
           },
           {
             "$type": "Diffraction.Scripting.Script, Diffraction",
             "Path": "Scripts/testing.lua",
             "_parent": {
               "$type": "Diffraction.Serializables.sObject, Diffraction",
-              "Id": "2748e556-03c8-43fa-bdec-d864d946757b"
+              "Id": "56ecaa89-aac4-4610-8ddc-fc814d56d7bd"
             },
             "Parameters": {
               "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
               "MainCamera": {
                 "$type": "Diffraction.Rendering.Camera, Diffraction",
-                "IsMainCamera": true,
+                "IsMainCamera": false,
                 "Position": {
                   "$type": "System.Numerics.Vector3, System.Private.CoreLib",
-                  "X": 0.0,
-                  "Y": 7.0,
-                  "Z": -5.0
+                  "X": 101.56316,
+                  "Y": 2.0129895,
+                  "Z": -1.7513088
                 },
                 "Resolution": {
                   "$type": "Silk.NET.Maths.Vector2D`1[[System.Int32, System.Private.CoreLib]], Silk.NET.Maths",
-                  "X": 2560,
-                  "Y": 1355
+                  "X": 1800,
+                  "Y": 1097
                 },
+                "TargetSpeed": 45.0,
+                "Yaw": 0.0,
+                "Pitch": 0.0,
+                "Roll": 0.0,
+                "FOV": 69.0,
+                "AspectRatio": 1.21895,
+                "Speed": 4.0,
+                "Sensitivity": 0.003,
+                "Name": null,
                 "Forward": {
                   "$type": "System.Numerics.Vector3, System.Private.CoreLib",
-                  "X": 0.0,
+                  "X": 1.0,
                   "Y": 0.0,
-                  "Z": 1.0
-                },
-                "TargetSpeed": 12.0,
-                "Up": {
-                  "$type": "System.Numerics.Vector3, System.Private.CoreLib",
-                  "X": 0.0,
-                  "Y": 1.0,
                   "Z": 0.0
                 },
                 "Right": {
                   "$type": "System.Numerics.Vector3, System.Private.CoreLib",
-                  "X": -1.0,
+                  "X": -4.371139E-08,
                   "Y": 0.0,
-                  "Z": 0.0
+                  "Z": 1.0
                 },
-                "FOV": 45.0,
-                "AspectRatio": 1.6477382,
-                "Speed": 4.0,
-                "Sensitivity": 0.01
+                "Up": {
+                  "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                  "X": 0.0,
+                  "Y": 1.0,
+                  "Z": -0.0
+                }
+              },
+              "Children": {
+                "$type": "System.Collections.Generic.List`1[[Diffraction.Rendering.Objects.Object, Diffraction]], System.Private.CoreLib",
+                "$values": []
+              },
+              "Name": "TestCube",
+              "IsVisible": false,
+              "Transform": {
+                "$type": "Diffraction.Rendering.Meshes.Transform, Diffraction",
+                "Position": {
+                  "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                  "X": 15.109408,
+                  "Y": 0.9999998,
+                  "Z": -5.792992
+                },
+                "Rotation": {
+                  "$type": "System.Numerics.Quaternion, System.Private.CoreLib",
+                  "X": 0.0,
+                  "Y": -0.8474551,
+                  "Z": 0.0,
+                  "W": -0.53086716,
+                  "IsIdentity": false
+                },
+                "Scale": {
+                  "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                  "X": 1.0,
+                  "Y": 1.0,
+                  "Z": 1.0
+                },
+                "Forward": {
+                  "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                  "X": 0.89977217,
+                  "Y": 0.0,
+                  "Z": -0.43636024
+                },
+                "Right": {
+                  "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+                  "X": 0.43636024,
+                  "Y": 0.0,
+                  "Z": 0.89977217
+                }
               }
             },
             "Name": "testing"
@@ -323,22 +663,22 @@
         "$values": []
       },
       "Name": "TestCube",
-      "IsVisible": true,
+      "IsVisible": false,
       "Transform": {
         "$type": "Diffraction.Rendering.Meshes.Transform, Diffraction",
         "Position": {
           "$type": "System.Numerics.Vector3, System.Private.CoreLib",
-          "X": 0.0,
-          "Y": 5.0,
-          "Z": 0.0
+          "X": 15.109408,
+          "Y": 0.9999998,
+          "Z": -5.792992
         },
         "Rotation": {
           "$type": "System.Numerics.Quaternion, System.Private.CoreLib",
           "X": 0.0,
-          "Y": 0.0,
+          "Y": -0.8474551,
           "Z": 0.0,
-          "W": 1.0,
-          "IsIdentity": true
+          "W": -0.53086716,
+          "IsIdentity": false
         },
         "Scale": {
           "$type": "System.Numerics.Vector3, System.Private.CoreLib",
@@ -348,9 +688,15 @@
         },
         "Forward": {
           "$type": "System.Numerics.Vector3, System.Private.CoreLib",
-          "X": 0.0,
+          "X": 0.89977217,
           "Y": 0.0,
-          "Z": 1.0
+          "Z": -0.43636024
+        },
+        "Right": {
+          "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+          "X": 0.43636024,
+          "Y": 0.0,
+          "Z": 0.89977217
         }
       },
       "Selected": false,
@@ -370,7 +716,7 @@
         ]
       },
       "ShaderName": "SkyboxShader",
-      "Id": "daca89e3-ddfd-4030-9458-afd8a07bc934",
+      "Id": "57fbf1d6-40cc-4257-a5b4-3f6fe6ba299a",
       "Components": {
         "$type": "System.Collections.Generic.List`1[[Diffraction.Rendering.EventObject, Diffraction]], System.Private.CoreLib",
         "$values": []
@@ -408,6 +754,12 @@
           "X": 0.0,
           "Y": 0.0,
           "Z": 1.0
+        },
+        "Right": {
+          "$type": "System.Numerics.Vector3, System.Private.CoreLib",
+          "X": -1.0,
+          "Y": 0.0,
+          "Z": 0.0
         }
       },
       "Selected": false,

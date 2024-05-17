@@ -18,28 +18,29 @@ public class Camera : EventObject
 
     public Vector3 Position;
     public Vector2D<int> Resolution;
-    public Vector3 Forward;
-    private Vector3 _targetForward;
     public float TargetSpeed = 12; // Lerp speed
-    public Vector3 Up;
-    public Vector3 Right;
+
+    public float Yaw;
+    public float Pitch;
+    public float Roll;
+    private float _targetYaw;
+    private float _targetPitch;
+    private float _targetRoll;
 
     public float FOV;
     public float AspectRatio;
-    public Camera(Vector3 position, Vector3 forward, Vector3 up, float fov, float aspectRatio)
+    public Camera(Vector3 position, float yaw, float pitch, float roll, float fov, Vector2D<int> resolution)
     {
         Position = position;
-        Forward = forward;
-        _targetForward = forward;
-        Up = up;
-        Right = Vector3.Cross(Forward, Up);
+        Yaw = yaw;
+        Pitch = pitch;
+        Roll = roll;
         FOV = fov;
-        AspectRatio = aspectRatio;
-
-        if (MainCamera == null || IsMainCamera)
+        AspectRatio = resolution.X / (float)resolution.Y;
+        Resolution = resolution;
+        if (IsMainCamera || MainCamera == null)
         {
             MainCamera = this;
-            IsMainCamera = true; // regardless of what the user sets, if there is no other main camera, this will be the main camera because we have to render something
         }
     }
     
@@ -62,12 +63,52 @@ public class Camera : EventObject
     }
     
     public float Speed = 4f;
-    public float Sensitivity  = 0.01f;
+    public float Sensitivity  = 0.003f;
     private bool _mouseLocked = false;
+
+    public Vector3 Forward
+    {
+        get
+        {
+            // calculate teh forward vector from the yaw, pitch, and roll
+            var forward = new Vector3
+            {
+                X = MathF.Cos(Yaw) * MathF.Cos(Pitch),
+                Y = MathF.Sin(Pitch),
+                Z = MathF.Sin(Yaw) * MathF.Cos(Pitch)
+            };
+            return Vector3.Normalize(forward);
+        }
+    }
+    
+    public Vector3 Right
+    {
+        get
+        {
+            // calculate the right vector from the yaw, pitch, and roll
+            var right = new Vector3
+            {
+                X = MathF.Cos(Yaw + MathF.PI / 2),
+                Y = 0,
+                Z = MathF.Sin(Yaw + MathF.PI / 2)
+            };
+            return Vector3.Normalize(right);
+        }
+    }
+    
+    public Vector3 Up
+    {
+        get
+        {
+            // calculate the up vector from the yaw, pitch, and roll
+            return Vector3.Normalize(Vector3.Cross(Right, Forward));
+        }
+    }
     
     public void SetForward(Vector3 forward)
     {
-        _targetForward = forward;
+        Yaw = MathF.Atan2(forward.Z, forward.X);
+        Pitch = MathF.Asin(forward.Y);
     }
 
     public override void Update(double time)
@@ -115,11 +156,16 @@ public class Camera : EventObject
             if (_mouseLocked)
             {
                 var delta = Input.MouseDelta;
-                _targetForward = Vector3.Transform(_targetForward,
-                    Matrix4x4.CreateFromAxisAngle(Up, -delta.X * 0.1f * Sensitivity));
-                _targetForward = Vector3.Transform(_targetForward,
-                    Matrix4x4.CreateFromAxisAngle(Right, -delta.Y * 0.1f * Sensitivity));
-
+                _targetYaw += delta.X * Sensitivity;
+                _targetPitch -= delta.Y * Sensitivity;
+                if (Pitch > MathF.PI / 2)
+                {
+                    _targetPitch = MathF.PI / 2 - 0.001f;
+                }
+                else if (Pitch < -MathF.PI / 2)
+                {
+                    _targetPitch = -MathF.PI / 2 + 0.001f;
+                }
                 Input.SetCursorMode(CursorMode.Raw);
             }
             else
@@ -135,13 +181,16 @@ public class Camera : EventObject
 
         if (TargetSpeed == 0)
         {
-            Forward = _targetForward;
-            Right = Vector3.Cross(Forward, Up);
+            Yaw = _targetYaw;
+            Pitch = _targetPitch;
+            Roll = _targetRoll;
         }
         else
         {
-            Forward = Vector3.Lerp(Forward, _targetForward, TargetSpeed * (float)time);
-            Right = Vector3.Cross(Forward, Up);
+            float speed = TargetSpeed * (float)time;
+            Yaw = MathUtils.Lerp(Yaw, _targetYaw, speed);
+            Pitch = MathUtils.Lerp(Pitch, _targetPitch, speed);
+            Roll = MathUtils.Lerp(Roll, _targetRoll, speed);
         }
     }
 
@@ -175,5 +224,30 @@ public static class MathUtils
     public static List<float> ToList(this Vector3 vec)
     {
         return new List<float> {vec.X, vec.Y, vec.Z};
+    }
+    
+    /*
+       function easeInOutCirc(x: number): number {
+       return x < 0.5
+         ? (1 - Math.sqrt(1 - Math.pow(2 * x, 2))) / 2
+         : (Math.sqrt(1 - Math.pow(-2 * x + 2, 2)) + 1) / 2;
+       }
+     */
+    
+    private static float EaseInOutCirc(float x)
+    {
+        return x < 0.5f
+            ? (1 - MathF.Sqrt(1 - MathF.Pow(2 * x, 2))) / 2
+            : (MathF.Sqrt(1 - MathF.Pow(-2 * x + 2, 2)) + 1) / 2;
+    }
+    
+    public static float EaseInOutCirc(float a, float b, float t)
+    {
+        return Lerp(a, b, EaseInOutCirc(t));
+    }
+    
+    public static float Lerp(float a, float b, float t)
+    {
+        return a + (b - a) * t;
     }
 }

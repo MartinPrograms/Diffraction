@@ -100,4 +100,9 @@ public unsafe class Simulation : EventObject
     {
         scene.Clear();
     }
+
+    public void Raycast(Vector3 origin, Vector3 direction, float distance, out HitData data)
+    {
+        scene.Raycast(origin, direction, distance, out data);
+    }
 }

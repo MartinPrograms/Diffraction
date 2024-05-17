@@ -72,7 +72,7 @@ RenderTexture renderTexture = null;
 ShaderUI shaderUI = new ShaderUI();
 ObjectUI objectUI = new ObjectUI();
 
-Camera camera = new Camera(new Vector3(0, 3, 3), new Vector3(0, 0, -1), Vector3.UnitY, 45f, (float)window.IWindow.Size.X / window.IWindow.Size.Y);
+Camera camera = new Camera(new Vector3(0, 0, 0), 0, 0, 0, 69, new Vector2D<int>(1280, 720));
 
 Simulation simulation = new Simulation();
 PhysicsUI physicsUI = new PhysicsUI();
@@ -204,7 +204,6 @@ window.Update += (time) =>
     {
         window.ToggleFullscreen();
     }
-    
 };
 
 window.Render += (time) =>
