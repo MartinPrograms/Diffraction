@@ -19,14 +19,17 @@ public class Camera : EventObject
 
     public Vector3 Position;
     public Vector2D<int> Resolution;
-    public float TargetSpeed = 12; // Lerp speed
+    public float TargetSpeed = 8; // Lerp speed
 
     public float Yaw;
     public float Pitch;
     public float Roll;
     private float _targetYaw;
+    public float TargetYaw => _targetYaw;
     private float _targetPitch;
+    public float TargetPitch => _targetPitch;
     private float _targetRoll;
+    public float TargetRoll => _targetRoll;
 
     public float FOV;
     public float AspectRatio;
@@ -174,14 +177,6 @@ public class Camera : EventObject
                 var delta = Input.MouseDelta;
                 _targetYaw += delta.X * Sensitivity;
                 _targetPitch -= delta.Y * Sensitivity;
-                if (Pitch > MathF.PI / 2)
-                {
-                    _targetPitch = MathF.PI / 2 - 0.001f;
-                }
-                else if (Pitch < -MathF.PI / 2)
-                {
-                    _targetPitch = -MathF.PI / 2 + 0.001f;
-                }
                 Input.SetCursorMode(CursorMode.Raw);
             }
             else
@@ -195,6 +190,17 @@ public class Camera : EventObject
             _mouseLocked = !_mouseLocked;
         }
 
+        if (Pitch > MathF.PI / 2)
+        {
+            _targetPitch = MathF.PI / 2 - 0.01f;
+            Pitch = MathF.PI / 2 - 0.01f;
+        }
+        else if (Pitch < -MathF.PI / 2)
+        {
+            _targetPitch = -MathF.PI / 2 + 0.01f;
+            Pitch = -MathF.PI / 2 + 0.01f;
+        }
+        
         if (TargetSpeed == 0)
         {
             Yaw = _targetYaw;
@@ -203,10 +209,10 @@ public class Camera : EventObject
         }
         else
         {
-            float speed = TargetSpeed * (float)time;
-            Yaw = MathUtils.Lerp(Yaw, _targetYaw, speed);
-            Pitch = MathUtils.Lerp(Pitch, _targetPitch, speed);
-            Roll = MathUtils.Lerp(Roll, _targetRoll, speed);
+            float t = (float)time * TargetSpeed;
+            Yaw = MathUtils.Lerp(Yaw, _targetYaw, t);
+            Pitch = MathUtils.Lerp(Pitch, _targetPitch, t);
+            Roll = MathUtils.Lerp(Roll, _targetRoll, t);
         }
     }
 

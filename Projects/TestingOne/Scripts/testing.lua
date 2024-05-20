@@ -90,15 +90,20 @@ function Update()
         rigidbody.IsGrounded = false
     end
 
-    StaticText.RenderTextA("Grounded: " .. tostring(rigidbody.IsGrounded), Vector2(10, 10), 2, Vector4(1, 1, 1, 1))
+    StaticText.RenderText("Grounded: " .. tostring(rigidbody.IsGrounded), Vector2(10, 10), 2, Vector4(1, 1, 1, 1))
 
     -- Now for mouse movement
     local mouseDelta = Input.GetMouseDelta()
 
     if (Input.IsMouseLocked()) then        
         --Rotate the camera forward along the x & y axis
-        MainCamera:SetPitch(MainCamera.Pitch - mouseDelta.Y * Time.DeltaTime * 0.5)
-        MainCamera:SetYaw(MainCamera.Yaw + mouseDelta.X * Time.DeltaTime * 0.5)
+        MainCamera:SetPitch(MainCamera.TargetPitch - mouseDelta.Y * Time.DeltaTime * 0.5)
+        MainCamera:SetYaw(MainCamera.TargetYaw + mouseDelta.X * Time.DeltaTime * 0.5)
+
+        StaticText.RenderText("Yaw: " .. MainCamera.Yaw, Vector2(10, 30), 2, Vector4(1, 1, 1, 1))
+        StaticText.RenderText("Pitch: " .. MainCamera.Pitch, Vector2(10, 50), 2, Vector4(1, 1, 1, 1))
+        StaticText.RenderText("Mouse X: " .. mouseDelta.X, Vector2(10, 70), 2, Vector4(1, 1, 1, 1)) 
+        StaticText.RenderText("Mouse Y: " .. mouseDelta.Y, Vector2(10, 90), 2, Vector4(1, 1, 1, 1))
 
         Transform.Rotation = Quaternion.CreateFromYawPitchRoll(-MainCamera.Yaw + math.pi / 2, 0, 0)
     end
@@ -108,7 +113,6 @@ function Update()
     end
 
     MainCamera.Position = Transform.Position --+ Vector3.UnitY * 2 - Vector3.Multiply(Transform.Forward, 5)
-    MainCamera.TargetSpeed = 45
    
     rigidbody:SetPhysicsTransform(Transform);
 end

@@ -129,4 +129,20 @@ public class Object : EventObject
         
         return obj;
     }
+
+    public void RawRender(Shaders.Shader shader)
+    {
+        // A render that does not use any shaders, because they are previously assigned out of this scope
+        
+        foreach (var child in Children)
+        {
+            child.RawRender(shader);
+        }
+        
+        foreach (Mesh mesh in Components.OfType<Mesh>())
+        {
+            mesh.SetParentTransform(Transform);
+            mesh.RawRender(shader);
+        }
+    }
 }

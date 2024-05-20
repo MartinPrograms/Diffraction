@@ -98,7 +98,7 @@ public class Text : EventObject
 
 public static class StaticText
 {
-    public static void RenderTextB(string text)
+    public static void RenderText(string text)
     {
         Window.Instance.LateRenderQueue += d =>
         {
@@ -106,11 +106,43 @@ public static class StaticText
         };
     }
     
-    public static void RenderTextA(string text, Vector2 position, float scale, Vector4 color)
+    public static void RenderText(string text, Vector2 position)
+    {
+        Window.Instance.LateRenderQueue += d =>
+        {
+            TextRenderer.RenderText(Window.Instance.GL, TextRenderer.DefaultFont, text, position.X, HorizontalAlignment.Center, position.Y, VerticalAlignment.Center, 1, new Vector4(1, 1, 1,1));
+        };
+    }
+    
+    public static void RenderText(string text, Vector2 position, float scale)
+    {
+        Window.Instance.LateRenderQueue += d =>
+        {
+            TextRenderer.RenderText(Window.Instance.GL, TextRenderer.DefaultFont, text, position.X, HorizontalAlignment.Center, position.Y, VerticalAlignment.Center, scale, new Vector4(1, 1, 1,1));
+        };
+    }
+    
+    public static void RenderText(string text, Vector2 position, float scale, Vector4 color)
     {
         Window.Instance.LateRenderQueue += d =>
         {
             TextRenderer.RenderText(Window.Instance.GL, TextRenderer.DefaultFont, text, position.X, HorizontalAlignment.Center, position.Y, VerticalAlignment.Center, scale, color);
+        };
+    }
+    
+    public static void RenderText(string text, Vector2 position, float scale, Vector4 color, HorizontalAlignment horizontalAlignment)
+    {
+        Window.Instance.LateRenderQueue += d =>
+        {
+            TextRenderer.RenderText(Window.Instance.GL, TextRenderer.DefaultFont, text, position.X, horizontalAlignment, position.Y, VerticalAlignment.Center, scale, color);
+        };
+    }
+    
+    public static void RenderText(string text, Vector2 position, float scale, Vector4 color, HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment)
+    {
+        Window.Instance.LateRenderQueue += d =>
+        {
+            TextRenderer.RenderText(Window.Instance.GL, TextRenderer.DefaultFont, text, position.X, horizontalAlignment, position.Y, verticalAlignment, scale, color);
         };
     }
 }

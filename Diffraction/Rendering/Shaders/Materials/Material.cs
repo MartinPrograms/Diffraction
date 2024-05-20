@@ -38,4 +38,9 @@ public class Material
         
         Shader.SetInt("texture0", 0);
     }
+
+    public void BindShadowMap()
+    {
+        Shader.SetInt("shadowMap", 1); // TextureUnit.Texture1
+    }
 }

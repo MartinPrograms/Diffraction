@@ -1,24 +1,39 @@
 using System.Numerics;
+using System.Runtime.InteropServices;
 using Diffraction.Rendering.Windowing;
-using ImGuiNET;
 using Silk.NET.OpenGL.Extensions.ImGui;
+using SilkyGizmos;
+using ImGui = ImGuiNET.ImGui;
+using ImGuiCol = ImGuiNET.ImGuiCol;
+using ImGuiConfigFlags = ImGuiNET.ImGuiConfigFlags;
+using ImGuiIOPtr = ImGuiNET.ImGuiIOPtr;
 
 namespace Diffraction.Rendering.GUI;
-
+            
 public class ImGuiInstance
 {
     private ImGuiController _controller;
-    public ImGuiInstance(Window window)
+    
+    public unsafe ImGuiInstance(Window window)
     {
         _controller = new ImGuiController(window.GL, window.IWindow, window.Input, OnConfigureIo);
-        LoadDefaultSkin();
+        Gizmos.Init(window.GL, _controller.Context, window.IWindow, window.Input);
+        
         window.Update += (time) =>
-        {
+        {        
             _controller.Update((float)time);
+        };
+        
+        window.PreRender += (time) =>
+        {
+            
         };
         
         window.Render += (time) =>
         {
+            var view = Camera.MainCamera.GetViewMatrix();
+            var projection = Camera.MainCamera.GetProjectionMatrix();
+            
             _controller.Render();
         };
         
@@ -32,6 +47,7 @@ public class ImGuiInstance
     {
         ImGuiIOPtr io = ImGui.GetIO();
         io.Fonts.AddFontFromFileTTF("Editor/Fonts/ruda-variable.ttf", 16.0f);
+        LoadDefaultSkin();
     }
 
     public static void LoadDefaultSkin()
@@ -39,8 +55,6 @@ public class ImGuiInstance
         var io = ImGui.GetIO();
         io.ConfigFlags |= ImGuiConfigFlags.DockingEnable;
         io.ConfigFlags |= ImGuiConfigFlags.ViewportsEnable;
-        ImGui.DockSpaceOverViewport();
-
         {
             //SetColors();
         }

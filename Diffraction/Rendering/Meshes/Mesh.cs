@@ -51,6 +51,7 @@ public class Mesh : EventObject
     public override void Render(Camera camera)
     {
         _material.Use();
+        _material.BindShadowMap();
         _data.Bind();
         
         var view = camera.GetViewMatrix();
@@ -100,5 +101,14 @@ public class Mesh : EventObject
     public void SetParentTransform(Transform transform)
     {
         _parentTransform = transform;
+    }
+
+    public void RawRender(Shaders.Shader shader)
+    {
+        _data.Bind();
+        
+        shader.SetMat4("model", _transform.GetModelMatrix());
+        
+        _data.Draw();
     }
 }

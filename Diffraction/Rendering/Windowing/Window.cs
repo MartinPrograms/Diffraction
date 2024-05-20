@@ -27,6 +27,10 @@ public class Window
 
     public Action Open;
     public Action <double>Update;
+    /// <summary>
+    /// Will not be able to render to the screen, but will be able to render to a texture
+    /// </summary>
+    public Action<double> PreRender;
     public Action <double>Render;
     public Action <double> LateRender;
     public Action Close;
@@ -97,6 +101,8 @@ public class Window
         
         _window.Render += (time) =>
         {
+            PreRender?.Invoke(time);
+            
             _gl.Clear((uint)ClearBufferMask.ColorBufferBit | (uint)ClearBufferMask.DepthBufferBit);
             _gl.ClearColor(0.2f, 0.2f,0.4f, 1.0f);
 

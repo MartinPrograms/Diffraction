@@ -94,5 +94,7 @@ public class MainMenuBar : EventObject
         {
             ObjectScene.Instance.ReloadScene();
         }
+        
+        ImGui.EndMainMenuBar();
     }
 }

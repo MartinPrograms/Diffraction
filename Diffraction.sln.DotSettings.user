@@ -1,5 +1,7 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=_002Fhome_002Fmarten_002FDownloads_002FImGuizmo_002ENET_002FImGuizmo_002ENET_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=_002Fhome_002Fmarten_002Frepos_002FMagicPhysX_002Fsrc_002FMagicPhysX_002Fbin_002FDebug_002Fnet6_002E0_002FMagicPhysX_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/home/marten/.nuget/packages/silk.net.core/2.21.0/lib/net6.0/Silk.NET.Core.dll" /&gt;
+  &lt;PhysicalFolder Path="/home/marten/.nuget/packages/imgui.net/1.90.6.1" Loaded="True" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>

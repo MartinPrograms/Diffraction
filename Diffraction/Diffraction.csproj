@@ -64,4 +64,8 @@
       <ReferencePathWithRefAssemblies Update="\home\marten\.nuget\packages\silk.net.input.common\2.21.0\lib\net5.0\Silk.NET.Input.Common.dll" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\SilkyGizmos\SilkyGizmos.csproj" />
+    </ItemGroup>
+
 </Project>

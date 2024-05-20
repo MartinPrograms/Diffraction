@@ -6,8 +6,6 @@ using MagicPhysX.Toolkit;
 
 using Silk.NET.Input;
 using Silk.NET.Maths;
-using Silk.NET.OpenGL;
-using Silk.NET.OpenGL.Extensions.ImGui;
 using Silk.NET.Windowing;
 
 using Diffraction.Audio;
@@ -25,10 +23,11 @@ using Diffraction.Rendering.Shaders;
 using Diffraction.Rendering.Shaders.Gen;
 using Diffraction.Rendering.Shaders.Materials;
 using Diffraction.Rendering.Specials;
+using Diffraction.Rendering.Specials.Lighting;
 using Diffraction.Scripting;
 using Diffraction.Scripting.Globals;
 using Diffraction.Serializables;
-
+using SilkyGizmos;
 using Mesh = Diffraction.Rendering.Meshes.Mesh;
 using Object = Diffraction.Rendering.Objects.Object;
 using Simulation = Diffraction.Physics.Simulation;
@@ -44,12 +43,15 @@ ObjectScene scene = new ObjectScene(config["project_path"]);
 var shaders = new Tuple<string, string, string>[]
 {
     // Name, Vertex, Fragment
-    new Tuple<string, string, string>("MonkeyShader", "Shaders/standard.vert", "Shaders/monkey.frag"),
-    new Tuple<string, string, string>("SelectionShader", "Shaders/standard.vert", "Shaders/selected.frag"),
-    new Tuple<string, string, string>("TransparentShader", "Shaders/standard.vert", "Shaders/transparent.frag"),
-    new Tuple<string, string, string>("TextShader", "Shaders/text.vert", "Shaders/text.frag"),
-    new Tuple<string, string, string>("SkyboxShader", "Shaders/skybox.vert", "Shaders/skybox.frag"),
-    new Tuple<string, string, string>("MeshSkybox", "Shaders/advanced_skybox.vert", "Shaders/monkey.frag"),
+    new Tuple<string, string, string>("MonkeyShader", "Shaders/normal/standard.vert", "Shaders/normal/monkey.frag"),
+    new Tuple<string, string, string>("SelectionShader", "Shaders/normal/standard.vert", "Shaders/normal/selected.frag"),
+    new Tuple<string, string, string>("TransparentShader", "Shaders/normal/standard.vert", "Shaders/normal/transparent.frag"),
+    new Tuple<string, string, string>("TextShader", "Shaders/normal/text.vert", "Shaders/normal/text.frag"),
+    new Tuple<string, string, string>("SkyboxShader", "Shaders/normal/skybox.vert", "Shaders/normal/skybox.frag"),
+    new Tuple<string, string, string>("MeshSkybox", "Shaders/normal/advanced_skybox.vert", "Shaders/normal/monkey.frag"),
+    new Tuple<string, string, string>("LitShader", "Shaders/normal/standard.vert", "Shaders/normal/lit.frag"),
+    
+    new Tuple<string, string, string>("DirectionalLightShader", "Shaders/lights/directional.vert", "Shaders/lights/directional.frag"),
 };
 
 var apiVersion = new APIVersion(3, 3);
@@ -80,6 +82,7 @@ AudioUI audioUI = new AudioUI();
 MainMenuBar mainMenuBar = new MainMenuBar();
 Viewport viewport = null;
 ScriptUI scriptUI = new ScriptUI();
+LightUI lightUI = new LightUI();
 
 Stats stats = new Stats();
 
@@ -121,7 +124,7 @@ window.Open += () =>
 
     {
         var mesh = new Mesh(new sMeshData("Models/cube.obj"),
-            new Material(new sShader("MonkeyShader"), new sTexture("Textures/grass.png")), new Material(new sShader("MeshSkybox"), new sTexture("Textures/grass.png")));
+            new Material(new sShader("LitShader"), new sTexture("Textures/grass.png")), new Material(new sShader("MeshSkybox"), new sTexture("Textures/grass.png")));
         
         var obj = new Object("Floor") { Components = new List<EventObject>() { mesh } }; 
         obj.Transform.Scale = new Vector3(30, 1, 30);
@@ -133,7 +136,7 @@ window.Open += () =>
 
     {
         var mesh = new Mesh(new sMeshData("Models/cube.obj"),
-            new Material(new sShader("MonkeyShader"), new sTexture("Textures/monkey.png")), new Material(new sShader("MeshSkybox"), new sTexture("Textures/monkey.png")));
+            new Material(new sShader("LitShader"), new sTexture("Textures/monkey.png")), new Material(new sShader("MeshSkybox"), new sTexture("Textures/monkey.png")));
         var obj = new Object("TestCube") { Components = new List<EventObject>() { mesh } };
         obj.Transform.Position = new Vector3(0, 5, 0);
         obj.Transform.Scale = new Vector3(1, 1, 1);
@@ -143,6 +146,20 @@ window.Open += () =>
         obj.Components.Add(new PhysicsObject(new sObject(obj.Id), new sRigidbody(new sCollisionShape(CollisionShapeType.Box, obj.Transform.Scale.ToList(), obj.Transform.Position, obj.Transform.Rotation, 10))){LockRotation = LockRotationFlags.All});
         
         obj.Components.Add(script);
+        
+        scene.AddObject(obj);
+    }
+
+    {
+        var obj = new Object("DirectionalLight");
+        obj.Transform.Position = new Vector3(11, 16, 26);
+        obj.Transform.Rotation = new Quaternion(0.027f, -0.951f, 0.239f, 0.196f);
+        
+        var light = new DirectionalLight(new sObject(obj.Id), new sShader("DirectionalLightShader"));
+        light.ShadowSize = 10;
+        light.CastsShadows = true;
+        
+        obj.Components.Add(light);
         
         scene.AddObject(obj);
     }
@@ -204,6 +221,8 @@ window.Update += (time) =>
     {
         window.ToggleFullscreen();
     }
+    
+    Gizmos.Update();
 };
 
 window.Render += (time) =>
@@ -213,8 +232,12 @@ window.Render += (time) =>
     
     if (renderimgui)
     {        
+        
+        scene.RenderLighting(camera);
+        
         renderTexture.Bind();
         scene.Render(camera);
+        Gizmos.Render();
         renderTexture.Unbind();
     
         window.GL.Viewport(0, 0, (uint)window.IWindow.FramebufferSize.X, (uint)window.IWindow.FramebufferSize.Y);
@@ -231,8 +254,10 @@ window.Render += (time) =>
         audioUI.Render(camera);
         sceneUI.Render(camera);
         scriptUI.Render(camera);
+        lightUI.Render(camera);
         
         viewport.Render(camera);
+
     }
     else
     {            
@@ -243,6 +268,8 @@ window.Render += (time) =>
         scene.Render(camera);
         window.GL.Viewport(0, 0, (uint)window.IWindow.FramebufferSize.X, (uint)window.IWindow.FramebufferSize.Y);
 
+        Gizmos.SetResolution((int)window.IWindow.FramebufferSize.X, (int)window.IWindow.FramebufferSize.Y);
+        Gizmos.Render();
     }
     
 };
@@ -251,6 +278,8 @@ window.LateRender += d =>
 {
     if (!ObjectScene.Instance.Paused)
         stats.Render(camera);
+    
+    //Gizmos.Render();
 };
 
 window.Run();
