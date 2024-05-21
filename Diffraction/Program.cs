@@ -268,8 +268,11 @@ window.Render += (time) =>
         scene.Render(camera);
         window.GL.Viewport(0, 0, (uint)window.IWindow.FramebufferSize.X, (uint)window.IWindow.FramebufferSize.Y);
 
+        Gizmos.SetInteractionResolution((int)window.IWindow.Size.X, (int)window.IWindow.Size.Y);
         Gizmos.SetResolution((int)window.IWindow.FramebufferSize.X, (int)window.IWindow.FramebufferSize.Y);
+        Gizmos.SetOffset(0, 0);
         Gizmos.Render();
+        window.GL.Viewport(0, 0, (uint)window.IWindow.FramebufferSize.X, (uint)window.IWindow.FramebufferSize.Y);
     }
     
 };

@@ -91,9 +91,9 @@ public static class Gizmos // Used in immediate mode like imgui, but for gizmos!
             
             // Now for interaction
             Vector2 mousePos = Input.MousePosition;
-            Vector3 xScreenPos = WorldToScreen(x, view, projection, new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
-            Vector3 yScreenPos = WorldToScreen(y, view, projection, new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
-            Vector3 zScreenPos = WorldToScreen(z, view, projection, new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
+            Vector3 xScreenPos = WorldToScreen(x, view, projection, InteractionResolution);
+            Vector3 yScreenPos = WorldToScreen(y, view, projection, InteractionResolution);
+            Vector3 zScreenPos = WorldToScreen(z, view, projection, InteractionResolution);
             
             // Get the first ball that is being hovered
             
@@ -101,9 +101,9 @@ public static class Gizmos // Used in immediate mode like imgui, but for gizmos!
             float yDistanceFromCamera = (y - view.ExtractTranslation()).Length();
             float zDistanceFromCamera = (z - view.ExtractTranslation()).Length();
             
-            bool xHovered = IsMouseHoveringBall(mousePos, xScreenPos, size / xDistanceFromCamera, new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
-            bool yHovered = IsMouseHoveringBall(mousePos, yScreenPos, size / yDistanceFromCamera, new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
-            bool zHovered = IsMouseHoveringBall(mousePos, zScreenPos, size / zDistanceFromCamera, new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
+            bool xHovered = IsMouseHoveringBall(mousePos, xScreenPos, size / xDistanceFromCamera, InteractionResolution);
+            bool yHovered = IsMouseHoveringBall(mousePos, yScreenPos, size / yDistanceFromCamera, InteractionResolution);
+            bool zHovered = IsMouseHoveringBall(mousePos, zScreenPos, size / zDistanceFromCamera, InteractionResolution);
 
             bool xDrag = false;
             bool yDrag = false;
@@ -137,7 +137,7 @@ public static class Gizmos // Used in immediate mode like imgui, but for gizmos!
                 }
             }
             
-            Vector3 currentWorldPos = ScreenToWorld(mousePos, view, projection, new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
+            Vector3 currentWorldPos = ScreenToWorld(mousePos, view, projection, InteractionResolution);
             
             Vector3 deltaWorld = currentWorldPos - _lastMouseWorldPos;
             
@@ -222,9 +222,9 @@ public static class Gizmos // Used in immediate mode like imgui, but for gizmos!
             Vector3 yColor = new Vector3(0.1f, 0.6f, 0.2f);
             Vector3 zColor = new Vector3(0.2f, 0.1f, 0.6f);
             
-            Vector3 xScreenPos = WorldToScreen(x, view, projection, new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
-            Vector3 yScreenPos = WorldToScreen(y, view, projection, new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
-            Vector3 zScreenPos = WorldToScreen(z, view, projection, new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
+            Vector3 xScreenPos = WorldToScreen(x, view, projection, new Vector2(InteractionResolution.X, InteractionResolution.Y));
+            Vector3 yScreenPos = WorldToScreen(y, view, projection, new Vector2(InteractionResolution.X, InteractionResolution.Y));
+            Vector3 zScreenPos = WorldToScreen(z, view, projection, new Vector2(InteractionResolution.X, InteractionResolution.Y));
             
             Vector3 currentWorldPos = ScreenToWorld(Input.MousePosition, view, projection, new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
             
@@ -236,15 +236,15 @@ public static class Gizmos // Used in immediate mode like imgui, but for gizmos!
             
             bool xHovered = IsMouseHoveringBall(Input.MousePosition, xScreenPos,
                 0.3f / (x - view.ExtractTranslation()).Length(),
-                new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
+                new Vector2(InteractionResolution.X, InteractionResolution.Y));
             
             bool yHovered = IsMouseHoveringBall(Input.MousePosition, yScreenPos, 
                 0.3f / (y - view.ExtractTranslation()).Length(),
-                new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
+                new Vector2(InteractionResolution.X, InteractionResolution.Y));
             
             bool zHovered = IsMouseHoveringBall(Input.MousePosition, zScreenPos, 
                 0.3f / (z - view.ExtractTranslation()).Length(),
-                new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
+                new Vector2(InteractionResolution.X, InteractionResolution.Y));
 
             bool xDrag = false;
             bool yDrag = false;
@@ -357,7 +357,7 @@ public static class Gizmos // Used in immediate mode like imgui, but for gizmos!
             }
             else
             {
-                x = new Vector3(1, 0, 0) + position;
+                x = new Vector3(-1, 0, 0) + position;
                 y = new Vector3(0, 1, 0) + position;
                 z = new Vector3(0, 0, 1) + position;
             }
@@ -366,9 +366,9 @@ public static class Gizmos // Used in immediate mode like imgui, but for gizmos!
             Vector3 yColor = new Vector3(0.1f, 0.6f, 0.2f);
             Vector3 zColor = new Vector3(0.2f, 0.1f, 0.6f);
             
-            Vector3 xScreenPos = WorldToScreen(x, view, projection, new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
-            Vector3 yScreenPos = WorldToScreen(y, view, projection, new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
-            Vector3 zScreenPos = WorldToScreen(z, view, projection, new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
+            Vector3 xScreenPos = WorldToScreen(x, view, projection, new Vector2(InteractionResolution.X, InteractionResolution.Y));
+            Vector3 yScreenPos = WorldToScreen(y, view, projection, new Vector2(InteractionResolution.X, InteractionResolution.Y));
+            Vector3 zScreenPos = WorldToScreen(z, view, projection, new Vector2(InteractionResolution.X, InteractionResolution.Y));
             
             Vector3 currentWorldPos = ScreenToWorld(Input.MousePosition, view, projection, new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
             
@@ -379,27 +379,27 @@ public static class Gizmos // Used in immediate mode like imgui, but for gizmos!
 
             bool xHovered = IsMouseHoveringBall(Input.MousePosition, xScreenPos,
                 0.3f / (x - view.ExtractTranslation()).Length(),
-                new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
+                new Vector2(InteractionResolution.X, InteractionResolution.Y));
             
             bool yHovered = IsMouseHoveringBall(Input.MousePosition, yScreenPos,
                 0.3f / (y - view.ExtractTranslation()).Length(),
-                new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
+                new Vector2(InteractionResolution.X, InteractionResolution.Y));
             
             bool zHovered = IsMouseHoveringBall(Input.MousePosition, zScreenPos,
                 0.3f / (z - view.ExtractTranslation()).Length(),
-                new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W));
+                new Vector2(InteractionResolution.X, InteractionResolution.Y));
 
             if (!xHovered)
                 xHovered = IsMouseHoveringLine(Input.MousePosition, position, x, 4,
-                    new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W), view, projection);
+                    new Vector2(InteractionResolution.X, InteractionResolution.Y), view, projection);
             
             if (!yHovered)
                 yHovered = IsMouseHoveringLine(Input.MousePosition, position, y, 4,
-                    new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W), view, projection);
+                    new Vector2(InteractionResolution.X, InteractionResolution.Y), view, projection);
             
             if (!zHovered)
                 zHovered = IsMouseHoveringLine(Input.MousePosition, position, z, 4,
-                    new Vector2(_renderPositionAndSize.Z, _renderPositionAndSize.W), view, projection);
+                    new Vector2(InteractionResolution.X, InteractionResolution.Y), view, projection);
 
             deltaWorld *= 4.0f; // Speed
             
@@ -603,6 +603,11 @@ public static class Gizmos // Used in immediate mode like imgui, but for gizmos!
     public static void SetLineThickness(float i)
     {
         Rendering.SetLineThickness(i);
+    }
+    private static Vector2 InteractionResolution = new Vector2(0, 0);
+    public static void SetInteractionResolution(int sizeX, int sizeY)
+    {
+        InteractionResolution = new Vector2(sizeX, sizeY);
     }
 }
 
