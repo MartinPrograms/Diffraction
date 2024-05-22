@@ -28,8 +28,10 @@ using Diffraction.Scripting;
 using Diffraction.Scripting.Globals;
 using Diffraction.Serializables;
 using SilkyGizmos;
+using Button = Diffraction.Rendering.GUI.Interactables.Button;
 using Mesh = Diffraction.Rendering.Meshes.Mesh;
 using Object = Diffraction.Rendering.Objects.Object;
+using Rectangle = Diffraction.Rendering.GUI.Rectangle;
 using Simulation = Diffraction.Physics.Simulation;
 using Transform = Diffraction.Rendering.Meshes.Transform;
 using Window = Diffraction.Rendering.Windowing.Window;
@@ -47,6 +49,7 @@ var shaders = new Tuple<string, string, string>[]
     new Tuple<string, string, string>("SelectionShader", "Shaders/normal/standard.vert", "Shaders/normal/selected.frag"),
     new Tuple<string, string, string>("TransparentShader", "Shaders/normal/standard.vert", "Shaders/normal/transparent.frag"),
     new Tuple<string, string, string>("TextShader", "Shaders/normal/text.vert", "Shaders/normal/text.frag"),
+    new Tuple<string, string, string>("RectShader", "Shaders/normal/rect.vert", "Shaders/normal/rect.frag"),
     new Tuple<string, string, string>("SkyboxShader", "Shaders/normal/skybox.vert", "Shaders/normal/skybox.frag"),
     new Tuple<string, string, string>("MeshSkybox", "Shaders/normal/advanced_skybox.vert", "Shaders/normal/monkey.frag"),
     new Tuple<string, string, string>("LitShader", "Shaders/normal/standard.vert", "Shaders/normal/lit.frag"),
@@ -99,6 +102,7 @@ window.Open += () =>
     
     TextRenderer.SetShader(ShaderUtils.GetShader("TextShader"));
 
+    
     {
         for (int x = 0; x < 5; x++)
         {
@@ -198,7 +202,6 @@ window.Open += () =>
     }
 };
 
-
 bool renderimgui = true;
 window.Update += (time) =>
 {
@@ -223,13 +226,14 @@ window.Update += (time) =>
     }
     
     Gizmos.Update();
+
 };
 
 window.Render += (time) =>
 {
     //quad.Render();
 
-    
+    /*
     if (renderimgui)
     {        
         
@@ -274,6 +278,7 @@ window.Render += (time) =>
         Gizmos.Render();
         window.GL.Viewport(0, 0, (uint)window.IWindow.FramebufferSize.X, (uint)window.IWindow.FramebufferSize.Y);
     }
+    */
     
 };
 
