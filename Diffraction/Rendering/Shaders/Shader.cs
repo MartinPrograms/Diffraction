@@ -112,6 +112,7 @@ public class Shader : EventObject
         uint vertexShader = 0;
         uint fragmentShader = 0;
         uint computeShader = 0;
+        uint geometryShader = 0;
         if (_type.HasFlag(ShaderType.Vertex))
         {
             vertexShader = _gl.CreateShader(GLEnum.VertexShader);
@@ -136,6 +137,14 @@ public class Shader : EventObject
             _gl.AttachShader(_id, computeShader);
         }
         
+        if (_type.HasFlag(ShaderType.Geometry))
+        {
+            geometryShader = _gl.CreateShader(GLEnum.GeometryShader);
+            _gl.ShaderSource(geometryShader, _geometrySource);
+            _gl.CompileShader(geometryShader);
+            _gl.AttachShader(_id, geometryShader);
+        }
+        
         _gl.LinkProgram(_id);
         
         if (_type.HasFlag(ShaderType.Vertex))
@@ -151,6 +160,11 @@ public class Shader : EventObject
         if (_type.HasFlag(ShaderType.Compute))
         {
             _gl.DeleteShader(computeShader);
+        }
+        
+        if (_type.HasFlag(ShaderType.Geometry))
+        {
+            _gl.DeleteShader(geometryShader);
         }
         
         _gl.GetProgram(_id, GLEnum.LinkStatus, out int status);

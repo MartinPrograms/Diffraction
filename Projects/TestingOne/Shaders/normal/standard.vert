@@ -19,7 +19,7 @@ out vec4 fragPosLightSpaces[MAX_LIGHTS];
 void main()
 {
     gl_Position = projection * view * model * vec4(position, 1.0);
-    fragNormal = normal;
+    fragNormal = vec3(model * vec4(normal, 0.0));
     fragTexCoord = texCoord;
     fragPos = vec3(model * vec4(position, 1.0));
     for(int i = 0; i < MAX_LIGHTS; ++i){

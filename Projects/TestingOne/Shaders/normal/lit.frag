@@ -1,5 +1,5 @@
 
-#version 330 core
+#version 400 core
 #define MAX_LIGHTS 16
 
 in vec3 fragNormal;
@@ -39,55 +39,62 @@ uniform vec3 cameraPos;
 
 out vec4 fragColor;
 
-float CalculatePointShadow(samplerCube shadowMap, float far_plane, vec3 lightPos, vec3 fragPos, float bias){
-    vec3 fragToLight = fragPos - lightPos;
-    float closestDepth = texture(shadowMap, fragToLight).r;
-    closestDepth *= far_plane;
-    float currentDepth = length(fragToLight);
-    float shadow = currentDepth - bias > closestDepth ? 0.0 : 1.0;
-    return shadow;
+vec2 poissonDisk[16] = vec2[](vec2(-0.94201624, -0.39906216), vec2(0.94558609, -0.76890725), vec2(-0.094184101, -0.92938870), vec2(0.34495938, 0.29387760), vec2(-0.91588581, 0.45771432), vec2(-0.81544232, -0.87912464), vec2(-0.38277543, 0.27676845), vec2(0.97484398, 0.75648379), vec2(0.44323325, -0.97511554), vec2(0.53742981, -0.47373420), vec2(-0.26496911, -0.41893023), vec2(0.79197514, 0.19090188), vec2(-0.24188840, 0.99706507), vec2(-0.81409955, 0.91437590), vec2(0.19984126, 0.78641367), vec2(0.14383161, -0.14100790));
+
+// Returns a random number based on a vec3 and an int.
+float random(vec3 seed, int i) {
+    vec4 seed4 = vec4(seed, i);
+    float dot_product = dot(seed4, vec4(12.9898, 78.233, 45.164, 94.673));
+    return fract(sin(dot_product) * 43758.5453);
 }
 
-float CalculateDirectionalShadow(sampler2D shadowMap, mat4 shadowMatrix, vec3 fragPos, float ignore, vec4 fragPosLightSpace){
-    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
-    projCoords = projCoords * 0.5 + 0.5;
-    float closestDepth = texture(shadowMap, projCoords.xy).r;
-    float currentDepth = projCoords.z;
-    if (projCoords.z > 1.0){
-        return 0.0;
-    }
-    float shadow = 0.0;
+
+
+float CalculateDirectionalShadow(sampler2D shadowMap, vec4 fragPosLightSpace) {
+    float visibility = 1.0; // Fully visible by default
     
-    float bias = max(0.05 * (1.0 - dot(fragNormal, normalize(lightPos[0] - fragPos))), 0.005);
+    vec4 projCoords = fragPosLightSpace;
+    projCoords /= projCoords.w;
+    projCoords = projCoords * 0.5 + 0.5;
+    projCoords.z -= 0.000001; // Bias
 
-    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
-    for (int x = -1; x <= 1; x++){
-        for (int y = -1; y <= 1; y++){
-            float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r;
-
-            shadow += currentDepth - bias > pcfDepth ? 0.0 : 1.0;
+    for (int i = 0; i < 16; i++) {
+        vec2 offset = poissonDisk[i];
+        vec4 offsetCoords = projCoords;
+        offsetCoords.xy += offset / 5000.0;
+        float shadow = texture(shadowMap, offsetCoords.xy).r;
+        if (projCoords.z > shadow) {
+            visibility -= 1.0 / 16.0;
         }
     }
 
-    shadow /= 9.0;
+    return visibility;
+}
+
+float CalculatePointShadow(samplerCube shadowMap, float far_plane, vec3 lightPos, vec3 fragPos) {
+    vec3 fragToLight = fragPos - lightPos;
+    float closestDepth = texture(shadowMap, fragToLight).r;
+
+    closestDepth *= far_plane;
+
+    float currentDepth = length(fragToLight);
+
+    float bias = 0.05;
+    float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
 
     return shadow;
 }
 
-void main(){
+void main() {
     vec4 texColor = texture(texture0, fragTexCoord);
-
-    if (texColor.a < 0.1){
-        //discard;
-    }
 
     vec3 normal = normalize(fragNormal);
     // First we start with the ambient light
     vec3 result = ambientColor * texColor.rgb;
 
     // A lighttype 0 is a directional light, light type 1 is a point light
-    for (int i = 0; i < lightCount; i++){
-        if (lightType[i] == 1){
+    for(int i = 0; i < lightCount; i++) {
+        if(lightType[i] == 1) {
             // Point light
 
             vec3 lightDir = lightPos[i] - fragPos;
@@ -102,15 +109,20 @@ void main(){
             vec3 viewDir = normalize(cameraPos - fragPos);
             vec3 reflectDir = reflect(-lightDir, normal);
             float spec = pow(max(dot(viewDir, reflectDir), 0.0), materialSpecularExponent);
-        
-            // Shadows
-            //float shadow = CalculatePointShadow(shadowCubeMap[i], far_plane[i], lightPos[i], fragPos, shadowBias[i]);
-            //result *= shadow;
 
-            result += (diffuse * lightColor[i] * texColor * intensity);
+            // Shadows
+            float shadow = 0.1; 
+            shadow = CalculatePointShadow(shadowCubeMap[i], far_plane[i], lightPos[i], fragPos);
+
+            if (shadow < 0.2) {
+                shadow = 0.2;
+            }
+
+            result += (diffuse * lightColor[i] * texColor + intensity * spec) * shadow;
+
         }
 
-        if (lightType[i] == 0){
+        if(lightType[i] == 0) {
             // Directional light
             vec3 lightDir = -lightPos[i];
             lightDir = normalize(lightDir);
@@ -121,13 +133,17 @@ void main(){
             vec3 viewDir = normalize(cameraPos - fragPos);
             vec3 reflectDir = reflect(-lightDir, normal);
             float spec = pow(max(dot(viewDir, reflectDir), 0.0), materialSpecularExponent);
-
+            float specular = materialSpecularStrength * spec;
 
             // Shadows
             vec4 fragPosLightSpace = fragPosLightSpaces[i];
-            float shadow = CalculateDirectionalShadow(shadowMaps[i], shadowMatrices[i], fragPos, shadowBias[i], fragPosLightSpace);
-            
-            result += (diffuse * lightColor[i] * texColor * lightIntensity[i] * shadow);
+            float shadow = CalculateDirectionalShadow(shadowMaps[i], fragPosLightSpace);
+
+            if (shadow < 0.2) {
+                shadow = 0.2;
+            }
+
+            result += (diffuse * lightColor[i] * texColor + specular) * shadow;
         }
     }
 

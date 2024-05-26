@@ -97,6 +97,7 @@ public class ObjectScene : EventObject
     {
         foreach (Rendering.Objects.Object obj in Objects)
         {
+            Window.Instance.GL.CullFace(GLEnum.Back);
             obj.Render(camera);
         }
 

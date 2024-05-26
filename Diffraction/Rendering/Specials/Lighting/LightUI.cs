@@ -1,5 +1,6 @@
 using Diffraction.Scripting.Globals;
 using ImGuiNET;
+using Silk.NET.OpenGL;
 
 namespace Diffraction.Rendering.Specials.Lighting;
 
@@ -34,6 +35,7 @@ public class LightUI : EventObject
 
             if (light.CastsShadows)
             {
+                light.BindShadowMap(TextureUnit.Texture8);
                 ImGui.Image(light.GetShadowMap(), new System.Numerics.Vector2(256, 256));
             }
             

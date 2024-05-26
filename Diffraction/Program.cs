@@ -57,7 +57,7 @@ var shaders = new Tuple<string, string?, string?, string?, string?>[]
     new ("LitShader", "Shaders/normal/standard.vert", "Shaders/normal/lit.frag", null, null),
     
     new ("DirectionalLightShader", "Shaders/lights/directional.vert", "Shaders/lights/directional.frag", null, null),
-    new ("PointLightShader", "Shaders/lights/point.vert", "Shaders/lights/point.frag", null, "Shaders/lights/point.gm"), // our first shader with geometry :)
+    new ("PointLightShader", "Shaders/lights/point.vert", "Shaders/lights/point.frag", null, "Shaders/lights/point.gs"), // our first shader with geometry :)
 };
 
 var apiVersion = new APIVersion(3, 3);
@@ -145,7 +145,7 @@ window.Open += () =>
         var mesh = new Mesh(new sMeshData("Models/cube.obj"),
             new Material(new sShader("LitShader"), new sTexture("Textures/monkey.png")), new Material(new sShader("MeshSkybox"), new sTexture("Textures/monkey.png")));
         var obj = new Object("TestCube") { Components = new List<EventObject>() { mesh } };
-        obj.Transform.Position = new Vector3(0, 5, 0);
+        obj.Transform.Position = new Vector3(0, -0.177f, 0);
         obj.Transform.Scale = new Vector3(1, 1, 1);
         
         var script = Script.Load("Scripts/testing.lua", new sObject(obj.Id));
@@ -158,6 +158,7 @@ window.Open += () =>
     }
 
     {
+        /*
         var obj = new Object("DirectionalLight");
         obj.Transform.Position = new Vector3(0, 8, 0); // Does not matter, only rotation
         obj.Transform.Rotation = new Quaternion(0.65f, 0.25f, 0.25f, 0.65f); // Set the rotation
@@ -165,6 +166,21 @@ window.Open += () =>
         var light = new DirectionalLight(new sObject(obj.Id), new sShader("DirectionalLightShader"));
         light.ShadowSize = 80;
         light.CastsShadows = true;
+        
+        obj.Components.Add(light);
+        
+        scene.AddObject(obj);
+        */
+    }
+
+    {
+        var obj = new Object("PointLight");
+                
+        obj.Transform.Position = new Vector3(0f, 5, 0f); // Unlike the directional light, the position matters
+        obj.Transform.Rotation = new Quaternion(0, 0, 0, 1); // Set the rotation, which does not matter, this is an omni light
+        
+        var light = new PointLight(new sObject(obj.Id), new sShader("PointLightShader"));
+        light.Color = new Vector3(1, 0, 0);
         
         obj.Components.Add(light);
         

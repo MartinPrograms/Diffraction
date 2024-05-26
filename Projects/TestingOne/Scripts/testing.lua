@@ -40,7 +40,7 @@ function Update()
     local forward = Transform.Forward
 
     local rigidbody = this:GetComponent("PhysicsObject")
-    this.IsVisible = false
+    this.IsVisible = true
 
     local speed = 5
     local jumpForce = 5

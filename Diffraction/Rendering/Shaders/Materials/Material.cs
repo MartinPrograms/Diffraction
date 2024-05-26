@@ -3,6 +3,7 @@ using Diffraction.Rendering.Windowing;
 using Diffraction.Serializables;
 using Newtonsoft.Json;
 using Silk.NET.OpenGL;
+using Silk.NET.Vulkan;
 
 namespace Diffraction.Rendering.Shaders.Materials;
 
@@ -14,8 +15,9 @@ public class Material
     public Vector3 Color = new Vector3(1, 1, 1);
     public float SpecularStrength = 0.5f;
     public float Shininess = 32;
-    public bool IgnoreLighting = false;
 
+    public TriangleFace CullMode = TriangleFace.Back;
+    
     [JsonIgnore] public Shader Shader = null;
 
     [JsonIgnore] public Texture Texture = null;
@@ -47,5 +49,7 @@ public class Material
         Shader.SetVec3("materialColor", Color);
         Shader.SetFloat("materialSpecularStrength", SpecularStrength);
         Shader.SetFloat("materialSpecularExponent", Shininess);
+        
+        gl.CullFace(CullMode);
     }
 }

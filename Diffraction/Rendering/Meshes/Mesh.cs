@@ -83,8 +83,8 @@ public class Mesh : EventObject
                 if (type == (int)LightType.Point)
                 {
                     // Set shadowMaps[i] to the shadow map of the light
-                    lights[i].BindShadowMap(TextureUnit.Texture1 + i);
-                    _material.Shader.SetInt("shadowCubeMap[" + i + "]", (int)lights[i].ShadowMap);
+                    lights[i].BindShadowMap(TextureUnit.Texture8 + i);
+                    _material.Shader.SetInt("shadowCubeMap[" + i + "]", 8 + i);
                     var light = lights[i] as PointLight;
                     _material.Shader.SetFloat("far_plane[" + i+ "]", light.ShadowFar);
                     _material.Shader.SetVec3("lightPos[" + i + "]", light.Transform.Position);

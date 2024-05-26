@@ -85,7 +85,7 @@ public class Light : EventObject
         }
     }
     
-    public void BindShadowMap(TextureUnit unit)
+    public virtual void BindShadowMap(TextureUnit unit)
     {
         GL.ActiveTexture(unit);
         GL.BindTexture(TextureTarget.Texture2D, ShadowMap);

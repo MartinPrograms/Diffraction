@@ -21,6 +21,8 @@ public class DirectionalLight : Light
 
 
         Name = "Directional Light";
+        
+        CastsShadows = true;
     }
 
     public override void Render(Camera camera)
@@ -35,7 +37,7 @@ public class DirectionalLight : Light
             
             BindShadowFBO();
             GL.Viewport(0, 0, (uint)ShadowMapSize.X, (uint)ShadowMapSize.Y);
-            GL.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit | ClearBufferMask.StencilBufferBit);
+            GL.Clear(ClearBufferMask.DepthBufferBit );
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.CullFace);
             
