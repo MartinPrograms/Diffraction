@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    	<EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <UserSecretsId>da66fa0f-0ccf-44a0-b68b-cd123d4208c1</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FreeTypeSharp" Version="3.0.0" />
+      <PackageReference Include="MagicPhysX" Version="1.0.0" />
+      <PackageReference Include="MessagePack" Version="2.6.100-alpha" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0-preview.3.24172.9" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.0-preview.3.24172.9" />
+      <PackageReference Include="NAudio" Version="2.2.1" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="NLua" Version="1.7.2" />
+      <PackageReference Include="ShaderGen" Version="1.2.0-beta3" />
+      <PackageReference Include="Silk.NET" Version="2.21.0" />
+      <PackageReference Include="Silk.NET.Assimp" Version="2.21.0" />
+      <PackageReference Include="Silk.NET.GLFW" Version="2.21.0" />
+      <PackageReference Include="Silk.NET.Input.Glfw" Version="2.21.0" />
+      <PackageReference Include="Silk.NET.OpenAL" Version="2.21.0" />
+      <PackageReference Include="Silk.NET.OpenGL" Version="2.21.0" />
+      <PackageReference Include="Silk.NET.OpenGL.Extensions.ImGui" Version="2.21.0" />
+      <PackageReference Include="Silk.NET.Windowing" Version="2.21.0" />
+      <PackageReference Include="Silk.NET.Windowing.Common" Version="2.21.0" />
+      <PackageReference Include="Silk.NET.Windowing.Extensions" Version="2.21.0" />
+      <PackageReference Include="Silk.NET.Windowing.Glfw" Version="2.21.0" />
+      <PackageReference Include="StbImageSharp" Version="2.27.14" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Rendering\Shaders\Sources\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Rendering\GUI\ruda-variable.ttf">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Rendering\Shaders\Sources\ExampleUV.glcs">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Rendering\Shaders\Sources\QuadShader.cs">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="MagicPhysX.Toolkit\MagicPhysX.Toolkit.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="MagicPhysX">
+        <HintPath>..\..\..\repos\MagicPhysX\src\MagicPhysX\bin\Debug\net6.0\MagicPhysX.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ReferencePathWithRefAssemblies Update="\home\marten\.nuget\packages\silk.net.input.common\2.21.0\lib\net5.0\Silk.NET.Input.Common.dll" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SilkyGizmos\SilkyGizmos.csproj" />
+    </ItemGroup>
+
+</Project>

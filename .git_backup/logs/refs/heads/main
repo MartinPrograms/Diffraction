@@ -1,0 +1,14 @@
+0000000000000000000000000000000000000000 4ee342b2cf51bfc9ec4a392af9248ef141179bd0 Marten <martinrages@gmail.com> 1715640407 +0200	commit (initial): Forgot to use git lol
+4ee342b2cf51bfc9ec4a392af9248ef141179bd0 4ee342b2cf51bfc9ec4a392af9248ef141179bd0 Marten <martinrages@gmail.com> 1715640728 +0200	Branch: renamed refs/heads/master to refs/heads/main
+4ee342b2cf51bfc9ec4a392af9248ef141179bd0 3a8477bc9a622cefcafc3bc6c64f16a10d6bf3fc Marten <martinrages@gmail.com> 1715641998 +0200	commit: Add sample project
+3a8477bc9a622cefcafc3bc6c64f16a10d6bf3fc ec69d41f6a6f3b095173302e01f00ad7f09ccd14 Marten <martinrages@gmail.com> 1715642008 +0200	merge origin/main: Merge made by the 'ort' strategy.
+ec69d41f6a6f3b095173302e01f00ad7f09ccd14 06fcf7be11ae34adc843c28a89f03d88fc63d4cd Marten <martinrages@gmail.com> 1715642302 +0200	commit: Change shader versions & game engine opengl version.
+06fcf7be11ae34adc843c28a89f03d88fc63d4cd 687f90bec46bb1013e4e5128d1798b6c96cf7a60 Marten <martinrages@gmail.com> 1715700993 +0200	pull --no-stat -v --progress origin main: Fast-forward
+687f90bec46bb1013e4e5128d1798b6c96cf7a60 fc7d620351123c75c5e9712a5ca33d6f1cf67741 Marten <martinrages@gmail.com> 1715701165 +0200	pull --no-stat -v --progress origin main: Fast-forward
+fc7d620351123c75c5e9712a5ca33d6f1cf67741 b6ff17367cd106d213bfb7cfcce35a4df7f5182c Marten <martinrages@gmail.com> 1715723320 +0200	commit: Improvements to Scripts, scenes, text rendering, lua support and more.
+b6ff17367cd106d213bfb7cfcce35a4df7f5182c c80fb3f42300aca270601978a551d5d31f504b7a Marten <martinrages@gmail.com> 1716045518 +0200	pull --no-stat -v --progress origin main: Fast-forward
+c80fb3f42300aca270601978a551d5d31f504b7a d37698146e7f606836d90a92ea307ac0086ee014 Marten <martinrages@gmail.com> 1716236713 +0200	commit: Gizmos, start work on lighting
+d37698146e7f606836d90a92ea307ac0086ee014 580db569d9c7a04579ba78ffdaa885f6c017ae91 Marten <martinrages@gmail.com> 1716236728 +0200	merge origin/main: Merge made by the 'ort' strategy.
+580db569d9c7a04579ba78ffdaa885f6c017ae91 cd041d92e7be1125f3d8fae5d9871d187f2b45a4 Marten <martinrages@gmail.com> 1716236799 +0200	commit: Delete some useless stuff
+cd041d92e7be1125f3d8fae5d9871d187f2b45a4 f14ee20e5024b90b72adb0588b565ea76cb945ca Marten <martinrages@gmail.com> 1716236910 +0200	commit: some changes to shaders
+f14ee20e5024b90b72adb0588b565ea76cb945ca 09bf0eaafbdcb5e99f509ad0ec8e55f71690e89f Marten <martinrages@gmail.com> 1716391344 +0200	pull --no-stat -v --progress origin main: Fast-forward
