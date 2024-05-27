@@ -11,6 +11,7 @@ public class Material
 {
     public sShader sShader;
     public sTexture sTexture;
+    public sTexture sNormalMap;
     
     public Vector3 Color = new Vector3(1, 1, 1);
     public float SpecularStrength = 0.5f;
@@ -22,10 +23,13 @@ public class Material
 
     [JsonIgnore] public Texture Texture = null;
     
-    public Material(sShader shader, sTexture texture)
+    [JsonIgnore] public Texture NormalMap = null;
+    
+    public Material(sShader shader, sTexture texture, sTexture normalMap)
     {
         sShader = shader;
         sTexture = texture;
+        sNormalMap = normalMap;
     }
     
     public void Use()
@@ -38,13 +42,21 @@ public class Material
         {
             Texture = TextureUtils.GetTexture(sTexture.TextureName);
         }
+        if (NormalMap == null)
+        {
+            NormalMap = TextureUtils.GetTexture(sNormalMap.TextureName);
+        }
+        
         var gl = Window.Instance.GL;
         Shader.Use();
         
-        gl.ActiveTexture(TextureUnit.Texture0);
         Texture.Bind();
         
         Shader.SetInt("texture0", 0);
+        
+        NormalMap.Bind(TextureUnit.Texture1);  // everything 8+ is shadow maps, the most expensive part of the shader.
+        
+        Shader.SetInt("normalMap", 1);
         
         Shader.SetVec3("materialColor", Color);
         Shader.SetFloat("materialSpecularStrength", SpecularStrength);

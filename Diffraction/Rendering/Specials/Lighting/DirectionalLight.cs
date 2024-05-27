@@ -13,16 +13,17 @@ public class DirectionalLight : Light
     // In this case its an orthographic camera
     public float ShadowSize = 10; // The size of the shadow camera
 
-    public DirectionalLight(sObject parent, sShader sShader) : base(parent, sShader)
+    public DirectionalLight(sObject parent, sShader sShader, bool castShadows) : base(parent, sShader)
     {
-
-        CreateShadowFBO();
-        CreateShadowMap();
-
+        CastsShadows = castShadows;
+        if (CastsShadows)
+        {
+            CreateShadowFBO();
+            CreateShadowMap();
+        }
 
         Name = "Directional Light";
         
-        CastsShadows = true;
     }
 
     public override void Render(Camera camera)
@@ -72,6 +73,10 @@ public class DirectionalLight : Light
     public Matrix4x4 GetLightSpaceMatrix()
     {
         var lightProjection = Matrix4x4.CreateOrthographic(ShadowSize, ShadowSize, ShadowNear, ShadowFar);
+        if (Parent == null)
+        {
+            return lightProjection;
+        }
         var lightView = Matrix4x4.CreateLookAt(-Parent.GetObject().Transform.Forward, Vector3.Zero, Parent.GetObject().Transform.Up);
         
         return lightView * lightProjection;

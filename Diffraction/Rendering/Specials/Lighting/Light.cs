@@ -1,4 +1,5 @@
 using System.Numerics;
+using Diffraction.Rendering.GUI;
 using Diffraction.Rendering.Meshes;
 using Diffraction.Rendering.Windowing;
 using Diffraction.Scripting.Globals;
@@ -8,13 +9,16 @@ using Silk.NET.OpenGL;
 
 namespace Diffraction.Rendering.Specials.Lighting;
 
-public class Light : EventObject
+public class Light : EventObject , IDisposable
 {
     // The base class for all lights
+    [ShowInEditor]
     public Vector3 Color = new Vector3(1, 1, 1); 
     public bool CastsShadows = false;
     public float Intensity = 1;
     public bool Enabled = true;
+    
+    [JsonProperty]
     public sObject Parent;
     public float Range = 10;
     // Shadows:
@@ -29,13 +33,35 @@ public class Light : EventObject
     public float ShadowFar = 100; // The far plane of the shadow camera
     // All remaining shadow related stuff is per light type, so it's in the derived classes.
 
-    public Transform Transform => Parent.GetObject().Transform;
+    [JsonIgnore]
+    public Transform Transform => GetTransform();
+    
+    private Transform GetTransform()
+    {
+        if (Parent != null)
+        {
+            return Parent.GetObject().Transform;
+        }
+        else
+        {
+            return new Transform(Vector3.Zero, Quaternion.Identity, Vector3.One);
+        }
+    }
     internal GL GL => Window.Instance.GL;
     public Light(sObject parent, sShader sShader)
     {
+        if (ObjectScene.Instance.Lights.Count >= LightManager.MaxLights)
+        {
+            Console.WriteLine("Warning: Maximum light count reached, overwriting last light");
+            var count = ObjectScene.Instance.Lights.Count;
+            ObjectScene.Instance.Lights[count - 1].Dispose();
+            ObjectScene.Instance.Lights = ObjectScene.Instance.Lights.GetRange(0, count - 1);
+        }
+        
+        ObjectScene.Instance.RegisterLight(this);
+        
         Parent = parent;
         ShadowShader = sShader;
-        ObjectScene.Instance.RegisterLight(this);
         
         Name = "Light";
     }
@@ -101,6 +127,16 @@ public class Light : EventObject
     {
         Console.WriteLine("Warning: GetLightType() called on base Light class");
         return -1; // this is a placeholder, should not be used
+    }
+
+    public void Dispose()
+    {
+        GL.DeleteTexture(ShadowMap);
+        GL.DeleteFramebuffer(ShadowFBO); // important lol
+        // otherwise the resources will stay, fine for 256x256 resolution but not for 8096x8096
+        // big memory leak
+        
+        ObjectScene.Instance.UnregisterLight(this);
     }
 }
 

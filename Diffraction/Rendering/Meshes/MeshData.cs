@@ -42,12 +42,18 @@ public class MeshData
             _gl.BufferData(BufferTargetARB.ElementArrayBuffer, (uint)(indices.Length * sizeof(uint)), indicesPtr, BufferUsageARB.StaticDraw);
         }
         
-        _gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 0);
         _gl.EnableVertexAttribArray(0);
-        _gl.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 8 * sizeof(float), 3 * sizeof(float));
+        _gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 14 * sizeof(float), 0);
         _gl.EnableVertexAttribArray(1);
-        _gl.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, false, 8 * sizeof(float), 6 * sizeof(float));
+        _gl.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 14 * sizeof(float), 3 * sizeof(float));
         _gl.EnableVertexAttribArray(2);
+        _gl.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, false, 14 * sizeof(float), 6 * sizeof(float));
+        
+        // tangents
+        _gl.EnableVertexAttribArray(3);
+        _gl.VertexAttribPointer(3, 3, VertexAttribPointerType.Float, false, 14 * sizeof(float), 8 * sizeof(float));
+        _gl.EnableVertexAttribArray(4);
+        _gl.VertexAttribPointer(4, 3, VertexAttribPointerType.Float, false, 14 * sizeof(float), 11 * sizeof(float));
         
         _gl.BindBuffer(BufferTargetARB.ArrayBuffer, 0);
     }

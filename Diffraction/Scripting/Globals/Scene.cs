@@ -63,9 +63,25 @@ public class ObjectScene : EventObject
         _isPlaying = false;
 
         // Convert JSON to Objects
+        
+        var clonedList = new List<Rendering.Objects.Object>();
+        clonedList.AddRange(Objects);
+        
+        var clonedLights = new List<Light>();
+        clonedLights.AddRange(Lights);
+        
+        foreach (Rendering.Objects.Object obj in clonedList)
+        {
+            obj.Dispose();
+        }
+        
+        foreach (Light light in clonedLights)
+        {
+            ObjectScene.Instance.UnregisterLight(light);
+        }
+        
         string json = System.IO.File.ReadAllText(_backupPath);
         Objects = JsonConvert.DeserializeObject<List<Object>>(json, _jsonSettings);
-
         
         Reload?.Invoke();
         _started = false;
@@ -100,7 +116,7 @@ public class ObjectScene : EventObject
             Window.Instance.GL.CullFace(GLEnum.Back);
             obj.Render(camera);
         }
-
+        
         if (Paused)
         {
             
@@ -230,5 +246,10 @@ public class ObjectScene : EventObject
         }
 
         return null;
+    }
+
+    public void UnregisterLight(Light light)
+    {
+        Lights.Remove(light);
     }
 }

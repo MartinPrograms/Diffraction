@@ -22,6 +22,11 @@ public class sMeshData
         
         MeshName = meshName;
     }
+    
+    public sMeshData(ModelData modelData)
+    {
+        MeshName = modelData.Path;
+    }
 
     public void Bind()
     {

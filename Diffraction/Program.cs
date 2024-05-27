@@ -128,10 +128,10 @@ window.Open += () =>
             }
         }
     }
-
+/*
     {
         var mesh = new Mesh(new sMeshData("Models/cube.obj"),
-            new Material(new sShader("LitShader"), new sTexture("Textures/grass.png")), new Material(new sShader("MeshSkybox"), new sTexture("Textures/grass.png")));
+            new Material(new sShader("LitShader"), new sTexture("Textures/Sand/color.jpg"), new sTexture("Textures/Sand/normal.jpg")), new Material(new sShader("MeshSkybox"), new sTexture("Textures/Sand/color.jpg"), new sTexture("Textures/Sand/normal.jpg")));
         
         var obj = new Object("Floor") { Components = new List<EventObject>() { mesh } }; 
         obj.Transform.Scale = new Vector3(30, 1, 30);
@@ -143,9 +143,9 @@ window.Open += () =>
 
     {
         var mesh = new Mesh(new sMeshData("Models/cube.obj"),
-            new Material(new sShader("LitShader"), new sTexture("Textures/monkey.png")), new Material(new sShader("MeshSkybox"), new sTexture("Textures/monkey.png")));
+            new Material(new sShader("LitShader"), new sTexture("Textures/Organic/color.jpg"), new sTexture("Textures/Organic/normal.jpg")), new Material(new sShader("MeshSkybox"), new sTexture("Textures/Organic/color.jpg"), new sTexture("Textures/Organic/normal.jpg")));
         var obj = new Object("TestCube") { Components = new List<EventObject>() { mesh } };
-        obj.Transform.Position = new Vector3(0, -0.177f, 0);
+        obj.Transform.Position = new Vector3(0, 3.177f, 0);
         obj.Transform.Scale = new Vector3(1, 1, 1);
         
         var script = Script.Load("Scripts/testing.lua", new sObject(obj.Id));
@@ -156,37 +156,48 @@ window.Open += () =>
         
         scene.AddObject(obj);
     }
+  */
 
     {
-        /*
-        var obj = new Object("DirectionalLight");
-        obj.Transform.Position = new Vector3(0, 8, 0); // Does not matter, only rotation
-        obj.Transform.Rotation = new Quaternion(0.65f, 0.25f, 0.25f, 0.65f); // Set the rotation
-        
-        var light = new DirectionalLight(new sObject(obj.Id), new sShader("DirectionalLightShader"));
-        light.ShadowSize = 80;
-        light.CastsShadows = true;
-        
-        obj.Components.Add(light);
+        var obj = new Object("Sponza");
+
+        obj.Children = ObjectLoader.Load("Models/sponza/sponza.obj"); // defaults to the most advanced shader (lit shader)
         
         scene.AddObject(obj);
-        */
     }
-
+    
     {
         var obj = new Object("PointLight");
                 
         obj.Transform.Position = new Vector3(0f, 5, 0f); // Unlike the directional light, the position matters
         obj.Transform.Rotation = new Quaternion(0, 0, 0, 1); // Set the rotation, which does not matter, this is an omni light
         
-        var light = new PointLight(new sObject(obj.Id), new sShader("PointLightShader"));
+        var light = new PointLight(new sObject(obj.Id), new sShader("PointLightShader"), true);
         light.Color = new Vector3(1, 0, 0);
+        light.CastsShadows = true;
         
         obj.Components.Add(light);
         
         scene.AddObject(obj);
     }
+
+    /*
+    {
         
+        var obj = new Object("DirectionalLight");
+        obj.Transform.Position = new Vector3(0, 8, 0); // Does not matter, only rotation
+        obj.Transform.Rotation = new Quaternion(0.442f, -0.206f, 0.774f, 0.405f); // Set the rotation
+        
+        var light = new DirectionalLight(new sObject(obj.Id), new sShader("DirectionalLightShader"), true);
+        light.ShadowSize = 72;
+        
+        obj.Components.Add(light);
+        
+        scene.AddObject(obj);
+        
+    }*/
+
+ 
     var skybox = new Skybox(new string[]
     {
         "Textures/cubemap/sea/nx.png",

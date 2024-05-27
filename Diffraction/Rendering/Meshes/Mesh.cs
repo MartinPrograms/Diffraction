@@ -43,6 +43,14 @@ public class Mesh : EventObject
         _skyboxMaterial = skyboxMaterial;
         
         _transform = new Transform(Vector3.Zero, Quaternion.Identity, Vector3.One);
+    }    
+    public Mesh( ModelData data)
+    {
+        _data = new sMeshData(data);
+        _material = data.Material;
+        _skyboxMaterial = data.Material;
+        
+        _transform = data.Transform;
     }
     
     public Mesh()
@@ -56,6 +64,8 @@ public class Mesh : EventObject
         _data.Bind();
 
         var lightManager = ObjectScene.Instance.FindObject("Light Manager") as LightManager;
+        bool hasDirectionalLight = false;
+        bool hasPointLight = false;
         if (lightManager.LightEnabled)
         {
             _material.Shader.SetVec3("ambientColor", lightManager.AmbientLight);
@@ -66,12 +76,25 @@ public class Mesh : EventObject
                 var type = lights[i].GetLightType();
                 _material.Shader.SetVec3("lightColor[" + i + "]", lights[i].Color);
                 _material.Shader.SetVec3("lightPos[" + i + "]", type == (int)LightType.Directional ? lights[i].Transform.Forward : lights[i].Transform.Position);
+                _material.Shader.SetVec3("lightPosAbs[" + i + "]", type == (int)LightType.Directional ? -lights[i].Transform.Forward * 100000 : lights[i].Transform.Position); // times 100 because that gives a good enough approximation of infinity
                 _material.Shader.SetFloat("lightIntensity[" + i + "]", lights[i].Intensity);
                 _material.Shader.SetFloat("lightRange[" + i + "]", lights[i].Range);
                 _material.Shader.SetInt("lightType[" + i + "]", type);
                 
-                // Shadow stuff
                 if (type == (int)LightType.Directional)
+                {
+                    _material.Shader.SetInt("hasDirectionalLight", 1);
+                    hasDirectionalLight = true;
+                }
+                
+                if (type == (int)LightType.Point)
+                {
+                    _material.Shader.SetInt("hasPointLight", 1);
+                    hasPointLight = true;
+                }
+                
+                // Shadow stuff
+                if (type == (int)LightType.Directional) 
                 {
                     // Set shadowMaps[i] to the shadow map of the light
                     lights[i].BindShadowMap(TextureUnit.Texture8 + i);
@@ -83,11 +106,15 @@ public class Mesh : EventObject
                 if (type == (int)LightType.Point)
                 {
                     // Set shadowMaps[i] to the shadow map of the light
-                    lights[i].BindShadowMap(TextureUnit.Texture8 + i);
+                    
+                    Window.Instance.GL.ActiveTexture(TextureUnit.Texture8 + i);
+                    Window.Instance.GL.BindTexture(TextureTarget.TextureCubeMap, lights[i].ShadowMap);
+                    
                     _material.Shader.SetInt("shadowCubeMap[" + i + "]", 8 + i);
                     var light = lights[i] as PointLight;
-                    _material.Shader.SetFloat("far_plane[" + i+ "]", light.ShadowFar);
+                    _material.Shader.SetFloat("far_plane[" + i + "]", light.ShadowFar);
                     _material.Shader.SetVec3("lightPos[" + i + "]", light.Transform.Position);
+                    _material.Shader.SetFloat("lightFalloff[" + i + "]", light.ShadowFallOff);
                 }
                 
                 _material.Shader.SetFloat("shadowBias[" + i + "]", lights[i].ShadowBias);
@@ -101,6 +128,10 @@ public class Mesh : EventObject
         }
         
         _material.Shader.SetVec3("cameraPos", camera.Position);
+        _material.Shader.SetInt("useNormalMap", lightManager.NormalEnabled ? 1 : 0);
+        
+        
+        if (!hasPointLight) _material.Shader.SetInt("shadowCubeMap[0]", 7);
 
         var view = camera.GetViewMatrix();
         

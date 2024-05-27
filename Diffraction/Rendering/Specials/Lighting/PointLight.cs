@@ -11,14 +11,18 @@ namespace Diffraction.Rendering.Specials.Lighting;
 
 public class PointLight : Light
 {
-    public PointLight(sObject parent, sShader sShader) : base(parent, sShader)
+    public float ShadowFallOff = 12f; // The fall off of the shadow in quadratic form
+    public PointLight(sObject parent, sShader sShader, bool castsShadows) : base(parent, sShader)
     {
-        CreateAllAroundShadowMapAndFbo();
+        CastsShadows = castsShadows;
+        if (CastsShadows)
+        {
+            CreateAllAroundShadowMapAndFbo();
+        }
+
         Name = "Point Light";
         
-        CastsShadows = true;
-        
-        ShadowFar = 10;
+        ShadowFar = 100;
     }
     
     public unsafe void CreateAllAroundShadowMapAndFbo()
@@ -86,9 +90,9 @@ public class PointLight : Light
             {
                 Shader = ShadowShader.GetShader();
             }
-
+            
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, ShadowFBO);
-
+            
             GL.Viewport(0, 0, (uint)ShadowMapSize.X, (uint)ShadowMapSize.Y);
             GL.Clear(ClearBufferMask.DepthBufferBit );
             GL.Enable(EnableCap.DepthTest);
@@ -102,28 +106,18 @@ public class PointLight : Light
             
             List<Matrix4x4> shadowMatrices = new();
 
-            shadowMatrices.Add(shadowProj * Matrix4x4.CreateLookAt(position, position + new Vector3(1.0f, 0.0f, 0.0f),
-                new Vector3(0.0f, -1.0f, 0.0f)));
-            
-            shadowMatrices.Add(shadowProj * Matrix4x4.CreateLookAt(position, position + new Vector3(-1.0f, 0.0f, 0.0f),
-                new Vector3(0.0f, -1.0f, 0.0f)));
-            
-            shadowMatrices.Add(shadowProj * Matrix4x4.CreateLookAt(position, position + new Vector3(0.0f, 1.0f, 0.0f),
-                new Vector3(0.0f, 0.0f, 1.0f)));
-            
-            shadowMatrices.Add(shadowProj * Matrix4x4.CreateLookAt(position, position + new Vector3(0.0f, -1.0f, 0.0f),
-                new Vector3(0.0f, 0.0f, -1.0f)));
-            
-            shadowMatrices.Add(shadowProj * Matrix4x4.CreateLookAt(position, position + new Vector3(0.0f, 0.0f, 1.0f),
-                new Vector3(0.0f, -1.0f, 0.0f)));
-            
-            shadowMatrices.Add(shadowProj * Matrix4x4.CreateLookAt(position, position + new Vector3(0.0f, 0.0f, -1.0f),
-                new Vector3(0.0f, -1.0f, 0.0f)));
+            shadowMatrices.Add(Matrix4x4.CreateLookAt(position, position + new Vector3(1, 0, 0), new Vector3(0, -1, 0)));
+            shadowMatrices.Add(Matrix4x4.CreateLookAt(position, position + new Vector3(-1, 0, 0), new Vector3(0, -1, 0)));
+            shadowMatrices.Add(Matrix4x4.CreateLookAt(position, position + new Vector3(0, 1, 0), new Vector3(0, 0, 1)));
+            shadowMatrices.Add(Matrix4x4.CreateLookAt(position, position + new Vector3(0, -1, 0), new Vector3(0, 0, -1)));
+            shadowMatrices.Add(Matrix4x4.CreateLookAt(position, position + new Vector3(0, 0, 1), new Vector3(0, -1, 0)));
+            shadowMatrices.Add(Matrix4x4.CreateLookAt(position, position + new Vector3(0, 0, -1), new Vector3(0, -1, 0)));
             
             // Our shader has a geometry shader that will create the 6 faces of the cube map, so we only need to render the scene once
             // Set the shadowMatrices in a loop
             for (int i = 0; i < 6; i++)
             {
+                shadowMatrices[i] = shadowMatrices[i] * shadowProj;
                 Shader.SetMat4("shadowMatrices[" + i + "]", shadowMatrices[i]);
             }
             

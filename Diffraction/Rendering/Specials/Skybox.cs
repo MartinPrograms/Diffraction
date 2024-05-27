@@ -129,8 +129,10 @@ public class Skybox : Rendering.Objects.Object
         _shader.SetMat4("view", view);
         _shader.SetMat4("projection", camera.GetProjectionMatrix());
         _shader.SetMat4("model", Transform.GetModelMatrix());
+        _shader.SetInt("skybox", 7);
             
         _gl.BindVertexArray(_vao);
+        _gl.ActiveTexture(TextureUnit.Texture7);
         Cubemap.Bind();
         _gl.DrawArrays(PrimitiveType.Triangles, 0, 36);
         _gl.BindVertexArray(0);
