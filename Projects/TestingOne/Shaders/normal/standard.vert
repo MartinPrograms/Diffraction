@@ -1,6 +1,6 @@
 
 #version 330 core
-#define MAX_LIGHTS 16
+#define MAX_LIGHTS 6
 
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec3 normal;

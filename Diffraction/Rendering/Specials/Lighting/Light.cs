@@ -89,6 +89,7 @@ public class Light : EventObject
     {
         GL.ActiveTexture(unit);
         GL.BindTexture(TextureTarget.Texture2D, ShadowMap);
+        GL.ActiveTexture(TextureUnit.Texture0);
     }
 
     public IntPtr GetShadowMap()

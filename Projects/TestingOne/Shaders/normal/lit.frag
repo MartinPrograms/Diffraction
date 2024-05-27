@@ -1,6 +1,6 @@
 
 #version 400 core
-#define MAX_LIGHTS 16
+#define MAX_LIGHTS 6
 
 in vec3 fragNormal;
 in vec2 fragTexCoord;
@@ -71,17 +71,17 @@ float CalculateDirectionalShadow(sampler2D shadowMap, vec4 fragPosLightSpace) {
     return visibility;
 }
 
-float CalculatePointShadow(samplerCube shadowMap, float far_plane, vec3 lightPos, vec3 fragPos) {
+
+float CalculatePointShadow(int index, float far_plane, vec3 lightPos, vec3 fragPos) {
     vec3 fragToLight = fragPos - lightPos;
-    float closestDepth = texture(shadowMap, fragToLight).r;
-
+    float closestDepth = texture(shadowCubeMap[index], vec3(1.0,1.0,1.0)).r;
     closestDepth *= far_plane;
-
+    
     float currentDepth = length(fragToLight);
 
     float bias = 0.05;
-    float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
-
+    float shadow = currentDepth - bias > closestDepth ? 0.0 : 1.0;
+    
     return shadow;
 }
 
@@ -112,7 +112,7 @@ void main() {
 
             // Shadows
             float shadow = 0.1; 
-            shadow = CalculatePointShadow(shadowCubeMap[i], far_plane[i], lightPos[i], fragPos);
+            shadow = CalculatePointShadow(i, far_plane[i], lightPos[i], fragPos);
 
             if (shadow < 0.2) {
                 shadow = 0.2;

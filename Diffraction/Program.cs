@@ -250,7 +250,6 @@ window.Update += (time) =>
     }
     
     Gizmos.Update();
-
 };
 
 window.Render += (time) =>

@@ -51,10 +51,10 @@ public class PointLight : Light
         
         if (GL.GetError() != GLEnum.NoError)
         {
-            Console.WriteLine("An OpenGL error occurred!");
+            throw new Exception("An OpenGL error occurred!");
         }
         
-        GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, TextureTarget.TextureCubeMap, ShadowMap, 0);
+        GL.FramebufferTexture(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, ShadowMap, 0);
         
         GL.DrawBuffer(DrawBufferMode.None);
         GL.ReadBuffer(ReadBufferMode.None);
@@ -65,10 +65,12 @@ public class PointLight : Light
         {
             Console.WriteLine("Framebuffer not complete!");
         }
-        
-        if (GL.GetError() != GLEnum.NoError)
+
+        string error = GL.GetError().ToString();
+        if (error != "NoError")
         {
-            Console.WriteLine("An OpenGL error occurred!");
+            Console.WriteLine("An OpenGL error occurred: " + error);
+            throw new Exception("An OpenGL error occurred!");
         }
         
     }
